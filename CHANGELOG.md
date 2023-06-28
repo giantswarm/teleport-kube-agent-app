@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- changed: `app.giantswarm.io` label group was changed to `application.giantswarm.io`
+### Added
+- First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/tree/main
+[Unreleased]: https://github.com/giantswarm/karpenter-app/compare/v0.0.0...HEAD
