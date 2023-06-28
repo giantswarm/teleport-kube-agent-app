@@ -10,4 +10,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/karpenter-app/compare/v0.0.0...HEAD
+[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.0.0...HEAD
