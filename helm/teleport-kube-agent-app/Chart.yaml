@@ -12,7 +12,7 @@ keywords:
 
 home: https://github.com/giantswarm/teleport-kube-agent-app
 
-icon: https://goteleport.com/images/logos/logo-teleport-square.svg
+icon: https://s.giantswarm.io/app-icons/teleport/1/light.png
 
 sources:
 - https://github.com/gravitational/teleport
