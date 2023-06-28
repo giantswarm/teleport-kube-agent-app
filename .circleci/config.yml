@@ -11,7 +11,7 @@ workflows:
           name: "package and push teleport-kube-agent-app chart"
           app_catalog: "giantswarm-playground-catalog"
           app_catalog_test: "giantswarm-playground-test-catalog"
-          chart: "teleport-kube-agent-app"
+          chart: "teleport-kube-agent"
           # Trigger job on git tag.
           filters:
             tags:
