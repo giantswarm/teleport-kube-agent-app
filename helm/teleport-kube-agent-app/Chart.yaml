@@ -18,7 +18,7 @@ sources:
 - https://github.com/gravitational/teleport
 version: [[ .Version ]]
 annotations:
-  application.giantswarm.io/team: bigmac # used through .Chart.Annotations.team (not replaced automatically)
+  application.giantswarm.io/team: bigmac
 maintainers:
   - name: giantswarm/team-bigmac
     email: team-bigmac@giantswarm.io
