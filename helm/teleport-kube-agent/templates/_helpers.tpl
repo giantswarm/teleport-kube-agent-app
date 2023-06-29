@@ -1,38 +1,46 @@
-{{/* vim: set filetype=mustache: */}}
+{{- define "teleport.kube.agent.isUpgrade" -}}
+{{- /* Checks if action is an upgrade from an old release that didn't support Secret storage */}}
+{{- if .Release.IsUpgrade }}
+  {{- $deployment := (lookup "apps/v1" "Deployment"  .Release.Namespace .Release.Name ) -}}
+  {{- if ($deployment) }}
+true
+  {{- else if .Values.unitTestUpgrade }}
+true
+  {{- end }}
+{{- end }}
+{{- end -}}
 {{/*
-Expand the name of the chart.
+Create the name of the service account to use
+if serviceAccount is not defined or serviceAccount.name is empty, use .Release.Name
 */}}
-{{- define "name" -}}
-{{- .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- define "teleport-kube-agent.serviceAccountName" -}}
+{{- coalesce .Values.serviceAccount.name .Values.serviceAccountName .Release.Name -}}
 {{- end -}}
 
 {{/*
-Create chart name and version as used by the chart label.
+Create the name of the service account to use for the post-delete hook
+if serviceAccount is not defined or serviceAccount.name is empty, use .Release.Name-delete-hook
 */}}
-{{- define "chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- define "teleport-kube-agent.deleteHookServiceAccountName" -}}
+{{- coalesce .Values.serviceAccount.name .Values.serviceAccountName (printf "%s-delete-hook" .Release.Name) -}}
 {{- end -}}
 
-{{/*
-Selector labels
-*/}}
-{{- define "labels.selector" -}}
-app.kubernetes.io/name: {{ include "name" . | quote }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
+{{- define "teleport-kube-agent.version" -}}
+{{- if .Values.teleportVersionOverride -}}
+  {{- .Values.teleportVersionOverride -}}
+{{- else -}}
+  {{- .Chart.Version -}}
+{{- end -}}
 {{- end -}}
 
-{{/*
-Common labels
-*/}}
-{{- define "labels.common" -}}
-{{ include "labels.selector" . }}
-app.giantswarm.io/branch: {{ .Chart.Annotations.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
-application.giantswarm.io/commit: {{ .Chart.Annotations.commit | quote }}
-application.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-application.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
-giantswarm.io/managed-by: {{ .Release.Name | quote }}
-giantswarm.io/service-type: {{ .Values.serviceType }}
-helm.sh/chart: {{ include "chart" . | quote }}
+{{- define "teleport-kube-agent.baseImage" -}}
+{{- if .Values.enterprise -}}
+  {{- .Values.enterpriseImage -}}
+{{- else -}}
+  {{- .Values.image -}}
+{{- end -}}
 {{- end -}}
 
+{{- define "teleport-kube-agent.image" -}}
+{{ include "teleport-kube-agent.baseImage" . }}:{{ include "teleport-kube-agent.version" . }}
+{{- end -}}
