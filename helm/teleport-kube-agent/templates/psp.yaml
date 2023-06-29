@@ -37,9 +37,7 @@ spec:
       max: 65535
   readOnlyRootFilesystem: true
   volumes:
-  - 'secret'
-  - 'projected'
-  - 'emptyDir'
+  - '*'
   hostNetwork: false
   hostIPC: false
   hostPID: false
