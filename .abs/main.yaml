@@ -1,4 +1,4 @@
 replace-chart-version-with-git: true
 generate-metadata: true
-chart-dir: ./helm/teleport-kube-agent-app
+chart-dir: ./helm/teleport-kube-agent
 destination: ./build
