@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-07-13
+
 ### Fixes
 - Update Chart.yaml to [fix this](https://app.circleci.com/pipelines/github/giantswarm/teleport-kube-agent-app/1/workflows/e58da8df-838e-4118-9411-522ed1dec2ec/jobs/1)
 
@@ -18,5 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.0.0...v0.1.0
