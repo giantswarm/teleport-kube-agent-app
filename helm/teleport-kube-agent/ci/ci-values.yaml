@@ -1,0 +1,4 @@
+proxyAddr: "teleport.demo.gaws.gigantic.io:443"
+authToken: "test"
+kubeClusterName: "test"
+roles: "kube"
