@@ -9,8 +9,8 @@ workflows:
           context: "architect"
           # executor: "app-build-suite" # uncomment this if you want automatic metadata generation and helm chart linting
           name: "package and push teleport-kube-agent-app chart"
-          app_catalog: "giantswarm-catalog"
-          app_catalog_test: "giantswarm-test-catalog"
+          app_catalog: "default-catalog"
+          app_catalog_test: "default-test-catalog"          
           chart: "teleport-kube-agent"
           # Trigger job on git tag.
           filters:
