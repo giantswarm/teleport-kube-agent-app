@@ -210,7 +210,9 @@ storage:
 # You can use the deprecated debian-based images by setting the value to
 # `public.ecr.aws/gravitational/teleport`. Those images will be
 # removed with teleport 14.
-image: public.ecr.aws/gravitational/teleport-distroless
+image:
+  repository: public.ecr.aws/gravitational/teleport-distroless
+
 # Enterprise version of the image
 # Since version 13, hardened distroless images are used by default.
 # You can use the deprecated debian-based images by setting the value to

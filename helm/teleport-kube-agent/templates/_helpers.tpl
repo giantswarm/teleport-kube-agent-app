@@ -37,7 +37,7 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- if .Values.enterprise -}}
   {{- .Values.enterpriseImage -}}
 {{- else -}}
-  {{- .Values.image -}}
+  {{- .Values.image.repository -}}
 {{- end -}}
 {{- end -}}
 
