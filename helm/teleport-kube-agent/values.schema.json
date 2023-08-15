@@ -6,7 +6,6 @@
         "roles",
         "joinParams",
         "kubeClusterName",
-        "apps",
         "appResources",
         "awsDatabases",
         "azureDatabases",
@@ -289,8 +288,14 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "string",
-            "default": "public.ecr.aws/gravitational/teleport-distroless"
+            "type": "object",
+            "properties": {
+                "repository": {
+                    "$id": "#/properties/image/repository",
+                    "type": "string",
+                    "default": "public.ecr.aws/gravitational/teleport-distroless"
+                }
+            }
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
