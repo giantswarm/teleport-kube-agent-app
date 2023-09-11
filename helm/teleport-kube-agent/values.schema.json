@@ -33,7 +33,9 @@
         "initContainers",
         "resources",
         "tolerations",
-        "probeTimeoutSeconds"
+        "probeTimeoutSeconds",
+        "proxy",
+        "cluster"
     ],
     "properties": {
         "authToken": {
@@ -617,6 +619,41 @@
             "$id": "#/properties/probeTimeoutSeconds",
             "type": "integer",
             "default": 1
+        },
+        "proxy": {
+            "$id": "#/properties/proxy",
+            "type": "object",
+            "properties": {
+                "http": {
+                    "type": ["null", "string"]
+                },
+                "https": {
+                    "type": ["null", "string"]
+                },
+                "noProxy": {
+                    "type": ["null", "string"]
+                }
+            }       
+        },
+        "cluster": {
+            "$id": "#/properties/cluster",
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "object",
+                    "properties": {
+                        "http": {
+                            "type": ["null", "string"]
+                        },
+                        "https": {
+                            "type": ["null", "string"]
+                        },
+                        "noProxy": {
+                            "type": ["null", "string"]
+                        }
+                    }
+                }
+            }           
         }
     }
 }
