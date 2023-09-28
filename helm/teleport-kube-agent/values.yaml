@@ -2,6 +2,10 @@
 # Values that must always be provided by the user.
 ################################################################
 
+global:
+  podSecurityStandards:
+    enforced: false
+
 # Join token for the cluster. `joinParams` can also pass the join token,
 # but supports more join methods and takes precedence if set.
 authToken: ""
