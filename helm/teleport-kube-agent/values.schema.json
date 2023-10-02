@@ -2,6 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
+        "global",
         "proxyAddr",
         "roles",
         "joinParams",
@@ -38,6 +39,29 @@
         "cluster"
     ],
     "properties": {
+        "global": {
+            "$id": "#/properties/global",
+            "type": "object",
+            "required": [
+                "podSecurityStandards"
+            ],
+            "properties": {
+                "podSecurityStandards": {
+                    "$id": "#/properties/global/properties/podSecurityStandards",
+                    "type": "object",
+                    "required": [
+                        "enforced"
+                    ],
+                    "properties": {
+                        "enforced": {
+                            "$id": "#/properties/global/properties/podSecurityStandards/properties/enforced",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                }
+            }
+        },
         "authToken": {
             "$id": "#/properties/authToken",
             "type": "string",
