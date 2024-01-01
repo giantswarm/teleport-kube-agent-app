@@ -176,7 +176,7 @@ labels: {}
 # Settings for high availability.
 highAvailability:
   # Set to >1 for a high availability mode where multiple Teleport agent pods will be deployed.
-  replicaCount: 1
+  replicaCount: 2
   # Setting 'requireAntiAffinity' to true will use 'requiredDuringSchedulingIgnoredDuringExecution' to require that multiple Teleport pods must not be scheduled on the
   # same physical host. This will result in Teleport pods failing to be scheduled in very small clusters or during node downtime, so should be used with caution.
   # Setting 'requireAntiAffinity' to false (the default) uses 'preferredDuringSchedulingIgnoredDuringExecution' to make this a soft requirement.
@@ -185,7 +185,7 @@ highAvailability:
   # If enabled will create a Pod Disruption Budget
   # https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
   podDisruptionBudget:
-    enabled: false
+    enabled: true
     minAvailable: 1
 
 ################################################################

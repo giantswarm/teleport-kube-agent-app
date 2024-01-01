@@ -336,7 +336,7 @@
         "replicaCount": {
             "$id": "#/properties/replicaCount",
             "type": "integer",
-            "default": 1
+            "default": 2
         },
         "clusterRoleName": {
             "$id": "#/properties/clusterRoleName",
@@ -378,7 +378,7 @@
                         "enabled": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/enabled",
                             "type": "boolean",
-                            "default": false
+                            "default": true
                         },
                         "minAvailable": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/minAvailable",
