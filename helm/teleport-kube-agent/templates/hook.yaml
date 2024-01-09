@@ -79,7 +79,7 @@ spec:
 {{- end }}
       containers:
       - name: post-install-job
-        image: alpine/k8s:1.28.4
+        image: alpine/k8s:1.29.0
         command:
         - sh
         - "-c"
