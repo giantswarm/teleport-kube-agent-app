@@ -215,7 +215,7 @@ storage:
 # `public.ecr.aws/gravitational/teleport`. Those images will be
 # removed with teleport 14.
 image:
-  repository: public.ecr.aws/gravitational/teleport-distroless
+  repository: gsoci.azurecr.io/giantswarm/teleport-distroless
 
 # Enterprise version of the image
 # Since version 13, hardened distroless images are used by default.
