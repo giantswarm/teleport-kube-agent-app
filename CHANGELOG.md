@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use Azure registry
+
 ## [0.7.0] - 2024-01-02
 
 ### Added
