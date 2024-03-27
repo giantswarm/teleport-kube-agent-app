@@ -1,22 +1,15 @@
 apiVersion: v2
-appVersion: 13.1.0
-
 name: teleport-kube-agent
-
-description: A Helm chart for Teleport Kubernetes access.
-
-type: application
-
-keywords:
-  - Teleport
-
-home: https://github.com/giantswarm/teleport-kube-agent-app
-
+appVersion: 15.1.9
+version: [[ .Version ]]
+description: Teleport provides a secure SSH, Kubernetes, database and application
+  remote access solution that doesn't get in the way.
 icon: https://s.giantswarm.io/app-icons/teleport/1/light.png
-
+type: application
 sources:
 - https://github.com/gravitational/teleport
-version: [[ .Version ]]
+keywords:
+- Teleport
 annotations:
   application.giantswarm.io/team: bigmac
 maintainers:
