@@ -2,10 +2,6 @@
 # Values that must always be provided by the user.
 ################################################################
 
-global:
-  podSecurityStandards:
-    enforced: false
-
 # roles(string) -- is a comma-separated list of services which will be enabled
 # when running the `teleport-kube-agent` chart.
 #
@@ -676,7 +672,7 @@ highAvailability:
   # (via [`authToken`](#authToken), [`joinParams`](#joinParams), or [`joinTokenSecret`](#joinTokenSecret))
   # is still valid. Each replica has its own identity and needs to join the Teleport
   # cluster on its first startup.
-  replicaCount: 2
+  replicaCount: 1
 
   # highAvailability.requireAntiAffinity(bool) -- configures Kubernetes `requiredDuringSchedulingIgnoredDuringExecution`
   # to require that multiple Teleport pods must not be scheduled on the same physical host.
@@ -701,7 +697,7 @@ highAvailability:
   podDisruptionBudget:
     # highAvailability.podDisruptionBudget.enabled(bool) -- makes the chart create
     # a Kubernetes PodDisruptionBudget for the agent pods.
-    enabled: true
+    enabled: false
 
     # highAvailability.podDisruptionBudget.minAvailable(int) -- is the minimum
     # available pod specified on the PodDisruptionBudget.
@@ -798,8 +794,7 @@ adminClusterRoleBinding:
 # This setting only takes effect when [`enterprise`](#enterprise) is `false`.
 # When running an enterprise version, you must use
 # [`enterpriseImage`](#enterpriseImage) instead.
-image:
-  repository: gsoci.azurecr.io/giantswarm/teleport-distroless
+image: public.ecr.aws/gravitational/teleport-distroless
 
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
@@ -1214,16 +1209,3 @@ tolerations: []
 # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 probeTimeoutSeconds: 1
-
-# set the HTTP_PROXY, HTTPS_PROXY and NO_PROXY variable
-proxy:
-  noProxy:
-  http:
-  https:
-cluster:
-  # is getting overwritten by the top level proxy if set
-  # These values are generated via cluster-apps-operator
-  proxy:
-    noProxy:
-    http:
-    https:
