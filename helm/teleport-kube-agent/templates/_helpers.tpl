@@ -33,7 +33,7 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- if .Values.teleportVersionOverride -}}
   {{- .Values.teleportVersionOverride -}}
 {{- else -}}
-  {{- .Chart.AppVersion -}}
+  {{- .Chart.Version -}}
 {{- end -}}
 {{- end -}}
 
@@ -41,7 +41,7 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- if .Values.enterprise -}}
   {{- .Values.enterpriseImage -}}
 {{- else -}}
-  {{- .Values.image.repository -}}
+  {{- .Values.image -}}
 {{- end -}}
 {{- end -}}
 
