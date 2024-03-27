@@ -304,6 +304,7 @@
                     "type": "boolean",
                     "default": false
                 },
+                "versionServer": {
                     "$id": "#/properties/updater/properties/versionServer",
                     "type": "string",
                     "default": "https://updates.releases.teleport.dev/v1/"
