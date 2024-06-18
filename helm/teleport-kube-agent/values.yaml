@@ -6,6 +6,8 @@ global:
   podSecurityStandards:
     enforced: false
 
+  image:
+    registry: ""
 # roles(string) -- is a comma-separated list of services which will be enabled
 # when running the `teleport-kube-agent` chart.
 #
@@ -33,7 +35,7 @@ roles: "kube"
 # | On-prem Teleport cluster      | `teleport.example.com:3080`         |
 # | Teleport Cloud cluster        | `example.teleport.sh:443`           |
 # | `teleport-cluster` Helm chart | `teleport.example.com:443`          |
-proxyAddr: ""
+proxyAddr: "test"
 
 # enterprise(bool) -- controls if the `teleport-kube-agent` chart should deploy
 # the OSS version or the enterprise version of the container image.
@@ -105,7 +107,7 @@ joinParams:
 # the cluster.
 #
 # This setting is required if the chart `roles` contains `kube`.
-kubeClusterName: ""
+kubeClusterName: "test"
 
 ################################################################
 # Values that must be provided if Application access is enabled.
@@ -799,7 +801,8 @@ adminClusterRoleBinding:
 # When running an enterprise version, you must use
 # [`enterpriseImage`](#enterpriseImage) instead.
 image:
-  repository: gsoci.azurecr.io/giantswarm/teleport-distroless
+  registry: &registry gsoci.azurecr.io
+  repository: giantswarm/teleport-distroless
 
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
