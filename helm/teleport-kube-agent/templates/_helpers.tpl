@@ -48,3 +48,11 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- define "teleport-kube-agent.image" -}}
 {{ include "teleport-kube-agent.baseImage" . }}:{{ include "teleport-kube-agent.version" . }}
 {{- end -}}
+
+{{- define "registry" }}
+{{- $registry := .Values.image.registry -}}
+{{- if and .Values.global (and .Values.global.image .Values.global.image.registry) -}}
+{{- $registry = .Values.global.image.registry -}}
+{{- end -}}
+{{- printf "%s" $registry -}}
+{{- end -}}

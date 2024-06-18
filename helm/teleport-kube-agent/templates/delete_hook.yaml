@@ -84,7 +84,7 @@ spec:
                 fieldPath: metadata.namespace
           - name: RELEASE_NAME
             value: {{ .Release.Name }}
-        image: {{ include "teleport-kube-agent.image" . | quote }}
+        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}'
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
