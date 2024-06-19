@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed the way registry is being parsed in helm templates
+
 ## [0.9.0] - 2024-04-18
 
 ### Added

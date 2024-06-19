@@ -6,6 +6,8 @@ global:
   podSecurityStandards:
     enforced: false
 
+  image:
+    registry: ""
 # roles(string) -- is a comma-separated list of services which will be enabled
 # when running the `teleport-kube-agent` chart.
 #
@@ -799,7 +801,8 @@ adminClusterRoleBinding:
 # When running an enterprise version, you must use
 # [`enterpriseImage`](#enterpriseImage) instead.
 image:
-  repository: gsoci.azurecr.io/giantswarm/teleport-distroless
+  registry: &registry gsoci.azurecr.io
+  repository: giantswarm/teleport-distroless
 
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
