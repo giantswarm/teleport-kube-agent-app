@@ -2,12 +2,6 @@
 # Values that must always be provided by the user.
 ################################################################
 
-global:
-  podSecurityStandards:
-    enforced: false
-
-  image:
-    registry: ""
 # roles(string) -- is a comma-separated list of services which will be enabled
 # when running the `teleport-kube-agent` chart.
 #
@@ -178,7 +172,7 @@ appResources: []
 # awsDatabases(list) -- configures AWS database auto-discovery.
 #
 # <Admonition type="note" title="IAM roles">
-#   For AWS database auto-discovery to work, your Database Service pods will need to use a role which has appropriate IAM permissions as per the [database documentation](../../../database-access/guides/rds.mdx#step-36-create-iam-policies-for-teleport).
+#   For AWS database auto-discovery to work, your Database Service pods will need to use a role which has appropriate IAM permissions as per the [database documentation](../../../database-access/enroll-aws-databases/rds.mdx#step-36-create-iam-policies-for-teleport).
 #   After configuring a role, you can use an `eks.amazonaws.com/role-arn` annotation with the `annotations.serviceAccount` value to associate it with the service account and grant permissions:
 #
 #   ```yaml
@@ -218,7 +212,7 @@ awsDatabases: []
 
 # azureDatabases(list) -- configures Azure database auto-discovery.
 # <Admonition type="note" title="Azure IAM">
-#   For Azure database auto-discovery to work, your Database Service pods will need to have appropriate IAM permissions as per the [database documentation](../../../database-access/guides/azure-postgres-mysql.mdx#step-46-configure-iam-permissions-for-teleport).
+#   For Azure database auto-discovery to work, your Database Service pods will need to have appropriate IAM permissions as per the [database documentation](../../../database-access/enroll-azure-databases/azure-postgres-mysql.mdx#step-35-configure-iam-permissions-for-teleport).
 #
 #   After configuring a service principal with appropriate IAM permissions, you must pass credentials to the pods.
 #   The easiest way is to use an Azure client secret.
@@ -390,6 +384,10 @@ databaseResources: []
 # documentation](../../../auto-discovery/kubernetes-applications/architecture.mdx)
 # for more details.
 #
+# <Admonition type="note">
+# The Discovery mechanism ignores Kubernetes services running in the `kube-system` and
+# `kube-public` namespaces.
+# </Admonition>
 # The default value will try to discover all apps running in Kubernetes.
 # The discovery can be restricted through this value. For example:
 #
@@ -598,6 +596,33 @@ updater:
   # binary.
   extraArgs: []
 
+  # updater.extraVolumes(list) -- contains extra volumes to mount into the Updater pods.
+  # See [the Kubernetes volume documentation](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # for more details.
+  #
+  # For example:
+  # ```yaml
+  # updater:
+  #   extraVolumes:
+  #   - name: myvolume
+  #     secret:
+  #       secretName: testSecret
+  # ```
+  extraVolumes: []
+
+  # updater.extraVolumeMounts(list) -- contains extra volumes mounts for the updater.
+  # See [the Kubernetes volume documentation](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # for more details.
+  #
+  # For example:
+  # ```yaml
+  # updater:
+  #   extraVolumesMounts:
+  #   - name: myvolume
+  #     mountPath: /path/on/host
+  # ```
+  extraVolumeMounts: []
+
 # existingDataVolume(string) -- is the name of an existing Kubernetes Persistent
 # Volume that should be mounted at `/var/lib/teleport`.
 #
@@ -678,7 +703,7 @@ highAvailability:
   # (via [`authToken`](#authToken), [`joinParams`](#joinParams), or [`joinTokenSecret`](#joinTokenSecret))
   # is still valid. Each replica has its own identity and needs to join the Teleport
   # cluster on its first startup.
-  replicaCount: 2
+  replicaCount: 1
 
   # highAvailability.requireAntiAffinity(bool) -- configures Kubernetes `requiredDuringSchedulingIgnoredDuringExecution`
   # to require that multiple Teleport pods must not be scheduled on the same physical host.
@@ -703,7 +728,7 @@ highAvailability:
   podDisruptionBudget:
     # highAvailability.podDisruptionBudget.enabled(bool) -- makes the chart create
     # a Kubernetes PodDisruptionBudget for the agent pods.
-    enabled: true
+    enabled: false
 
     # highAvailability.podDisruptionBudget.minAvailable(int) -- is the minimum
     # available pod specified on the PodDisruptionBudget.
@@ -800,9 +825,7 @@ adminClusterRoleBinding:
 # This setting only takes effect when [`enterprise`](#enterprise) is `false`.
 # When running an enterprise version, you must use
 # [`enterpriseImage`](#enterpriseImage) instead.
-image:
-  registry: &registry gsoci.azurecr.io
-  repository: giantswarm/teleport-distroless
+image: public.ecr.aws/gravitational/teleport-distroless
 
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
@@ -978,14 +1001,7 @@ log:
 # affinity(object) -- sets the affinities for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 # for more details.
-affinity:
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - preference:
-        matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-      weight: 10
+affinity: {}
 
 # dnsConfig(object) -- contains custom Pod DNS Configuration for the agent pods.
 # This value is useful if you need to reduce the DNS load: set "ndots" to 0 and
@@ -1219,26 +1235,8 @@ priorityClassName: ""
 # tolerations(list) -- sets the tolerations for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 # for more details.
-tolerations:
-  - effect: NoSchedule
-    key: node-role.kubernetes.io/control-plane
-  - effect: NoSchedule
-    key: node.cluster.x-k8s.io/uninitialized
-    operator: "Exists"
+tolerations: []
 
 # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 probeTimeoutSeconds: 1
-
-# set the HTTP_PROXY, HTTPS_PROXY and NO_PROXY variable
-proxy:
-  noProxy:
-  http:
-  https:
-cluster:
-  # is getting overwritten by the top level proxy if set
-  # These values are generated via cluster-apps-operator
-  proxy:
-    noProxy:
-    http:
-    https:
