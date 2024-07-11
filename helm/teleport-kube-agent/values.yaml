@@ -985,7 +985,7 @@ affinity:
       podAffinityTerm:
         labelSelector:
           matchLabels:
-            app.kubernetes.io/name: teleport-kube-agent
+            app: teleport-kube-agent
         topologyKey: "kubernetes.io/hostname"
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
