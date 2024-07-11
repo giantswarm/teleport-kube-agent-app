@@ -678,7 +678,7 @@ highAvailability:
   # (via [`authToken`](#authToken), [`joinParams`](#joinParams), or [`joinTokenSecret`](#joinTokenSecret))
   # is still valid. Each replica has its own identity and needs to join the Teleport
   # cluster on its first startup.
-  replicaCount: 2
+  replicaCount: 3
 
   # highAvailability.requireAntiAffinity(bool) -- configures Kubernetes `requiredDuringSchedulingIgnoredDuringExecution`
   # to require that multiple Teleport pods must not be scheduled on the same physical host.
@@ -979,6 +979,14 @@ log:
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 # for more details.
 affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: teleport-kube-agent
+        topologyKey: "kubernetes.io/hostname"
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
     - preference:
