@@ -2,7 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
-        "global",
         "proxyAddr",
         "roles",
         "joinParams",
@@ -38,34 +37,9 @@
         "initContainers",
         "resources",
         "tolerations",
-        "probeTimeoutSeconds",
-        "proxy",
-        "cluster"
+        "probeTimeoutSeconds"
     ],
     "properties": {
-        "global": {
-            "$id": "#/properties/global",
-            "type": "object",
-            "required": [
-                "podSecurityStandards"
-            ],
-            "properties": {
-                "podSecurityStandards": {
-                    "$id": "#/properties/global/properties/podSecurityStandards",
-                    "type": "object",
-                    "required": [
-                        "enforced"
-                    ],
-                    "properties": {
-                        "enforced": {
-                            "$id": "#/properties/global/properties/podSecurityStandards/properties/enforced",
-                            "type": "boolean",
-                            "default": false
-                        }
-                    }
-                }
-            }
-        },
         "authToken": {
             "$id": "#/properties/authToken",
             "type": "string",
@@ -368,19 +342,8 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "object",
-            "properties": {
-                "registry": {
-                    "$id": "#/properties/image/registry",
-                    "type": "string",
-                    "default": "public.ecr.aws"
-                },
-                "repository": {
-                    "$id": "#/properties/image/repository",
-                    "type": "string",
-                    "default": "gravitational/teleport-distroless"
-                }
-            }
+            "type": "string",
+            "default": "public.ecr.aws/gravitational/teleport-distroless"
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
@@ -395,7 +358,7 @@
         "replicaCount": {
             "$id": "#/properties/replicaCount",
             "type": "integer",
-            "default": 2
+            "default": 1
         },
         "clusterRoleName": {
             "$id": "#/properties/clusterRoleName",
@@ -437,7 +400,7 @@
                         "enabled": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/enabled",
                             "type": "boolean",
-                            "default": true
+                            "default": false
                         },
                         "minAvailable": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/minAvailable",
@@ -592,6 +555,11 @@
                 },
                 "deployment": {
                     "$id": "#/properties/extraLabels/properties/deployment",
+                    "type": "object",
+                    "default": {}
+                },
+                "job": {
+                    "$id": "#/properties/extraLabels/properties/job",
                     "type": "object",
                     "default": {}
                 },
@@ -776,41 +744,6 @@
                 },
                 "additionalProperties": false
             }
-        },
-        "proxy": {
-            "$id": "#/properties/proxy",
-            "type": "object",
-            "properties": {
-                "http": {
-                    "type": ["null", "string"]
-                },
-                "https": {
-                    "type": ["null", "string"]
-                },
-                "noProxy": {
-                    "type": ["null", "string"]
-                }
-            }       
-        },
-        "cluster": {
-            "$id": "#/properties/cluster",
-            "type": "object",
-            "properties": {
-                "proxy": {
-                    "type": "object",
-                    "properties": {
-                        "http": {
-                            "type": ["null", "string"]
-                        },
-                        "https": {
-                            "type": ["null", "string"]
-                        },
-                        "noProxy": {
-                            "type": ["null", "string"]
-                        }
-                    }
-                }
-            }           
         }
     }
 }
