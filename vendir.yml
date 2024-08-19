@@ -6,7 +6,7 @@ directories:
   - path: teleport-kube-agent
     helmChart:
       name: "teleport-kube-agent"
-      version: "15.1.9"
+      version: "15.4.14"
       repository:
         url: https://charts.releases.teleport.dev
     newRootPath: .
