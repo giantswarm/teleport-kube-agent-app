@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.0] - 2024-08-21
 
+### Changed
+
 - Upgraded to Teleport `version 16`
 
 ## [0.9.2] - 2024-07-16
