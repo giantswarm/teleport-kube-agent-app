@@ -771,7 +771,7 @@ highAvailability:
   # (via [`authToken`](#authToken), [`joinParams`](#joinParams), or [`joinTokenSecret`](#joinTokenSecret))
   # is still valid. Each replica has its own identity and needs to join the Teleport
   # cluster on its first startup.
-  replicaCount: 1
+  replicaCount: 3
 
   # highAvailability.requireAntiAffinity(bool) -- configures Kubernetes `requiredDuringSchedulingIgnoredDuringExecution`
   # to require that multiple Teleport pods must not be scheduled on the same physical host.
@@ -796,7 +796,7 @@ highAvailability:
   podDisruptionBudget:
     # highAvailability.podDisruptionBudget.enabled(bool) -- makes the chart create
     # a Kubernetes PodDisruptionBudget for the agent pods.
-    enabled: false
+    enabled: true
 
     # highAvailability.podDisruptionBudget.minAvailable(int) -- is the minimum
     # available pod specified on the PodDisruptionBudget.
@@ -893,8 +893,9 @@ adminClusterRoleBinding:
 # This setting only takes effect when [`enterprise`](#enterprise) is `false`.
 # When running an enterprise version, you must use
 # [`enterpriseImage`](#enterpriseImage) instead.
-image: public.ecr.aws/gravitational/teleport-distroless
-
+image:
+  registry: &registry gsoci.azurecr.io
+  repository: giantswarm/teleport-distroless
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
 #

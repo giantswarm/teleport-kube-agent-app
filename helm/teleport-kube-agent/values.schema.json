@@ -828,7 +828,7 @@
                 "noProxy": {
                     "type": ["null", "string"]
                 }
-            }
+            }       
         },
         "cluster": {
             "$id": "#/properties/cluster",
@@ -848,7 +848,7 @@
                         }
                     }
                 }
-            }
+            }           
         }
     }
 }
