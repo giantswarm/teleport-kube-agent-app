@@ -1,7 +1,12 @@
 ################################################################
 # Values that must always be provided by the user.
 ################################################################
+global:
+  podSecurityStandards:
+    enforced: false
 
+  image:
+    registry: ""
 # roles(string) -- is a comma-separated list of services which will be enabled
 # when running the `teleport-kube-agent` chart.
 #
@@ -1064,7 +1069,22 @@ log:
 # affinity(object) -- sets the affinities for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 # for more details.
-affinity: {}
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchLabels:
+            app: teleport-kube-agent
+        topologyKey: "kubernetes.io/hostname"
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - preference:
+        matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+      weight: 10
 
 # dnsConfig(object) -- contains custom Pod DNS Configuration for the agent pods.
 # This value is useful if you need to reduce the DNS load: set "ndots" to 0 and
@@ -1305,11 +1325,26 @@ podSecurityContext:
 # for more details.
 priorityClassName: ""
 
-# tolerations(list) -- sets the tolerations for any pods created by the chart.
-# See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
-# for more details.
-tolerations: []
+tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+  - effect: NoSchedule
+    key: node.cluster.x-k8s.io/uninitialized
+    operator: "Exists"
 
 # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 probeTimeoutSeconds: 1
+
+# set the HTTP_PROXY, HTTPS_PROXY and NO_PROXY variable
+proxy:
+  noProxy:
+  http:
+  https:
+cluster:
+  # is getting overwritten by the top level proxy if set
+  # These values are generated via cluster-apps-operator
+  proxy:
+    noProxy:
+    http:
+    https:

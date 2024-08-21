@@ -370,10 +370,15 @@
             "$id": "#/properties/image",
             "type": "object",
             "properties": {
+                "registry": {
+                    "$id": "#/properties/image/registry",
+                    "type": "string",
+                    "default": "public.ecr.aws"
+                },
                 "repository": {
                     "$id": "#/properties/image/repository",
                     "type": "string",
-                    "default": "public.ecr.aws/gravitational/teleport-distroless"
+                    "default": "gravitational/teleport-distroless"
                 }
             }
         },
