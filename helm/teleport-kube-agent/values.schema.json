@@ -2,6 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
+        "global",
         "proxyAddr",
         "roles",
         "joinParams",
@@ -37,9 +38,34 @@
         "initContainers",
         "resources",
         "tolerations",
-        "probeTimeoutSeconds"
+        "probeTimeoutSeconds",
+        "proxy",
+        "cluster"
     ],
     "properties": {
+        "global": {
+            "$id": "#/properties/global",
+            "type": "object",
+            "required": [
+                "podSecurityStandards"
+            ],
+            "properties": {
+                "podSecurityStandards": {
+                    "$id": "#/properties/global/properties/podSecurityStandards",
+                    "type": "object",
+                    "required": [
+                        "enforced"
+                    ],
+                    "properties": {
+                        "enforced": {
+                            "$id": "#/properties/global/properties/podSecurityStandards/properties/enforced",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                }
+            }
+        },
         "authToken": {
             "$id": "#/properties/authToken",
             "type": "string",
@@ -342,8 +368,19 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "string",
-            "default": "public.ecr.aws/gravitational/teleport-distroless"
+            "type": "object",
+            "properties": {
+                "registry": {
+                    "$id": "#/properties/image/registry",
+                    "type": "string",
+                    "default": "public.ecr.aws"
+                },
+                "repository": {
+                    "$id": "#/properties/image/repository",
+                    "type": "string",
+                    "default": "gravitational/teleport-distroless"
+                }
+            }
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
@@ -358,7 +395,7 @@
         "replicaCount": {
             "$id": "#/properties/replicaCount",
             "type": "integer",
-            "default": 1
+            "default": 2
         },
         "clusterRoleName": {
             "$id": "#/properties/clusterRoleName",
@@ -400,7 +437,7 @@
                         "enabled": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/enabled",
                             "type": "boolean",
-                            "default": false
+                            "default": true
                         },
                         "minAvailable": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/minAvailable",
@@ -777,6 +814,41 @@
             "$id": "#/properties/jamfSecret",
             "type": "string",
             "default": ""
+        },
+        "proxy": {
+            "$id": "#/properties/proxy",
+            "type": "object",
+            "properties": {
+                "http": {
+                    "type": ["null", "string"]
+                },
+                "https": {
+                    "type": ["null", "string"]
+                },
+                "noProxy": {
+                    "type": ["null", "string"]
+                }
+            }       
+        },
+        "cluster": {
+            "$id": "#/properties/cluster",
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "object",
+                    "properties": {
+                        "http": {
+                            "type": ["null", "string"]
+                        },
+                        "https": {
+                            "type": ["null", "string"]
+                        },
+                        "noProxy": {
+                            "type": ["null", "string"]
+                        }
+                    }
+                }
+            }           
         }
     }
 }
