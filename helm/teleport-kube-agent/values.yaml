@@ -1319,6 +1319,8 @@ securityContext:
 # To unset the security context, set it to `null` or `~`.
 podSecurityContext:
   fsGroup: 9807
+  seccompProfile:
+    type: RuntimeDefault
 
 # priorityClassName(string) -- sets the priority class used by any pods created by the chart.
 # The user is responsible for creating the `PriorityClass` resource before deploying the chart.
