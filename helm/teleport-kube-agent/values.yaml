@@ -35,7 +35,7 @@ roles: "kube,app,discovery"
 # | On-prem Teleport cluster      | `teleport.example.com:3080`         |
 # | Teleport Cloud cluster        | `example.teleport.sh:443`           |
 # | `teleport-cluster` Helm chart | `teleport.example.com:443`          |
-proxyAddr: ""
+proxyAddr: "teleport.giantswarm.io"
 
 # enterprise(bool) -- controls if the `teleport-kube-agent` chart should deploy
 # the OSS version or the enterprise version of the container image.
@@ -107,7 +107,7 @@ joinParams:
 # the cluster.
 #
 # This setting is required if the chart `roles` contains `kube`.
-kubeClusterName: ""
+kubeClusterName: "prod"
 
 ################################################################
 # Values that must be provided if Application access is enabled.
