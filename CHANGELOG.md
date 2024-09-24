@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change ownership to Team Shield
+
 ## [0.10.1] - 2024-09-04
 
 - Added small fix on `podSecurityContext` for `seccompProfile`.
