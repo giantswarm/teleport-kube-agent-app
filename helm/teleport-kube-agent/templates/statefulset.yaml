@@ -107,6 +107,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
           {{- end }}
+          {{- if contains "jamf" (.Values.roles | toString) }}
+        - mountPath: /etc/teleport-jamf-api-credentials
+          name: "jamf-api-credentials"
+          readOnly: true
+          {{- end }}
   {{- if .Values.extraVolumeMounts }}
     {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
   {{- end }}
@@ -140,7 +145,7 @@ spec:
             value: {{ $proxy.https }}
           - name: https_proxy
             value: {{ $proxy.https }}
-          {{- end }}        
+          {{- end }}
           # This variable is set for telemetry purposes.
           # Telemetry is opt-in and controlled at the auth level.
           - name: TELEPORT_INSTALL_METHOD_HELM_KUBE_AGENT
@@ -222,6 +227,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
 {{- end }}
+{{- if contains "jamf" (.Values.roles | toString) }}
+        - mountPath: /etc/teleport-jamf-api-credentials
+          name: "jamf-api-credentials"
+          readOnly: true
+{{- end }}
 {{- if .Values.extraVolumeMounts }}
   {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -243,6 +253,11 @@ spec:
       - name: "teleport-tls-ca"
         secret:
           secretName: {{ .Values.tls.existingCASecretName }}
+{{- end }}
+{{- if contains "jamf" (.Values.roles | toString) }}
+      - name: "jamf-api-credentials"
+        secret:
+          secretName: {{ .Values.jamfCredentialsSecret.name }}
 {{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 6 }}

@@ -1,7 +1,6 @@
 ################################################################
 # Values that must always be provided by the user.
 ################################################################
-
 global:
   podSecurityStandards:
     enforced: false
@@ -449,7 +448,7 @@ jamfCredentialsSecret:
   # Kubernetes `Secret` containing the Jamf Pro API Client Secret.
   # If false, you must create a Kubernetes Secret with the configured name in
   # the Helm release namespace.
-  create: true
+  create: false
   # jamfCredentialsSecret.name(string) -- is the name of the Kubernetes Secret
   # containing the Jamf Pro API Client Secret used by the chart.
   #
@@ -897,7 +896,6 @@ adminClusterRoleBinding:
 image:
   registry: &registry gsoci.azurecr.io
   repository: giantswarm/teleport-distroless
-
 # enterpriseImage(string) -- sets the container image used for Teleport Enterprise
 # agent pods created by the chart.
 #
@@ -1330,9 +1328,6 @@ podSecurityContext:
 # for more details.
 priorityClassName: ""
 
-# tolerations(list) -- sets the tolerations for any pods created by the chart.
-# See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
-# for more details.
 tolerations:
   - effect: NoSchedule
     key: node-role.kubernetes.io/control-plane
