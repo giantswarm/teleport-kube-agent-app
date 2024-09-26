@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.3] - 2024-09-26
 
+### Changed
+
+- Disable JAMF components on chart templates
+
 ## [0.10.2] - 2024-09-25
 
 ### Changed
