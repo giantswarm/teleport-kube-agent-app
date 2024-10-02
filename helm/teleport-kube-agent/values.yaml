@@ -142,9 +142,9 @@ kubeClusterName: ""
 #   Reference](../../../enroll-resources/application-access/reference.mdx#configuration).
 # </Admonition>
 apps:
-  - name: grafana-golem-vnet
+  - name: grafana-goat-vnet
     uri: "http://grafana.monitoring.svc.cluster.local:80"
-    public_addr: "grafana.golem"
+    public_addr: "grafana.goat"
     labels:
       env: production
       app: grafana
