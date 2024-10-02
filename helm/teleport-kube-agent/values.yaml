@@ -22,7 +22,7 @@ global:
 # ```yaml
 # roles: kube,app,discovery
 # ```
-roles: "kube,app"
+roles: kube, app
 
 # proxyAddr(string) -- provides the public-facing Teleport Proxy Service endpoint
 # which should be used to join the cluster. This is the same URL used to access
