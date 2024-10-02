@@ -143,7 +143,7 @@ kubeClusterName: ""
 # </Admonition>
 apps:
   - name: grafana-golem-vnet
-    uri: "tcp://grafana.monitoring.svc.cluster.local:80"
+    uri: "http://grafana.monitoring.svc.cluster.local:80"
     public_addr: "grafana.golem"
     labels:
       env: production
