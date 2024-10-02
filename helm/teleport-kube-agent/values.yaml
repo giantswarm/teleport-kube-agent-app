@@ -22,7 +22,7 @@ global:
 # ```yaml
 # roles: kube,app,discovery
 # ```
-roles: "kube,app,discovery"
+roles: "kube,app"
 
 # proxyAddr(string) -- provides the public-facing Teleport Proxy Service endpoint
 # which should be used to join the cluster. This is the same URL used to access
@@ -35,7 +35,7 @@ roles: "kube,app,discovery"
 # | On-prem Teleport cluster      | `teleport.example.com:3080`         |
 # | Teleport Cloud cluster        | `example.teleport.sh:443`           |
 # | `teleport-cluster` Helm chart | `teleport.example.com:443`          |
-proxyAddr: "teleport.giantswarm.io"
+proxyAddr: ""
 
 # enterprise(bool) -- controls if the `teleport-kube-agent` chart should deploy
 # the OSS version or the enterprise version of the container image.
@@ -107,7 +107,7 @@ joinParams:
 # the cluster.
 #
 # This setting is required if the chart `roles` contains `kube`.
-kubeClusterName: "prod"
+kubeClusterName: ""
 
 ################################################################
 # Values that must be provided if Application access is enabled.
@@ -141,7 +141,13 @@ kubeClusterName: "prod"
 #   Application Service configuration in the [Application Service Configuration
 #   Reference](../../../enroll-resources/application-access/reference.mdx#configuration).
 # </Admonition>
-apps: []
+apps:
+  - name: grafana-golem-vnet
+    uri: "tcp://grafana.monitoring.svc.cluster.local:80"
+    public_addr: "grafana.golem"
+    labels:
+      env: production
+      app: grafana
 
 # appResources(list) -- is a set of labels the agent will monitor. Any application
 # matching those labels will be proxied by the agent. See [the Teleport
@@ -524,7 +530,6 @@ caPin: []
 # </Admonition>
 insecureSkipProxyTLSVerify: false
 
-appDiscoveryEnabled: true
 # teleportConfig(object) -- contains YAML teleport configuration to pass to the
 # Teleport pods. The configuration will be merged with the chart-generated
 # configuration and will take precedence in case of conflict.
@@ -1046,7 +1051,7 @@ log:
   #
   # The default is `INFO`, which is recommended in production.
   # `DEBUG` is useful during first-time setup or to see more detailed logs for debugging.
-  level: DEBUG
+  level: INFO
   # log.output(string) -- sets the output destination for the Teleport process.
   # This can be set to any of the built-in values: `stdout`, `stderr` or `syslog`
   # to use that destination.
