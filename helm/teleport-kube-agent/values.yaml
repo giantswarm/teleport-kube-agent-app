@@ -448,7 +448,7 @@ jamfCredentialsSecret:
   # Kubernetes `Secret` containing the Jamf Pro API Client Secret.
   # If false, you must create a Kubernetes Secret with the configured name in
   # the Helm release namespace.
-  create: true
+  create: false
   # jamfCredentialsSecret.name(string) -- is the name of the Kubernetes Secret
   # containing the Jamf Pro API Client Secret used by the chart.
   #

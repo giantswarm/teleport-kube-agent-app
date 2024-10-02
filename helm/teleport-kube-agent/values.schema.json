@@ -790,7 +790,7 @@
                 "create": {
                     "$id": "#/properties/jamfCredentialsSecret/create",
                     "type": "boolean",
-                    "default": true
+                    "default": false
                 },
                 "name": {
                     "$id": "#/properties/jamfCredentialsSecret/name",
@@ -828,7 +828,7 @@
                 "noProxy": {
                     "type": ["null", "string"]
                 }
-            }       
+            }
         },
         "cluster": {
             "$id": "#/properties/cluster",

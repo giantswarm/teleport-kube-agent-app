@@ -11,7 +11,7 @@ sources:
 keywords:
 - Teleport
 annotations:
-  application.giantswarm.io/team: bigmac
+  application.giantswarm.io/team: shield
 maintainers:
-  - name: giantswarm/team-bigmac
-    email: team-bigmac@giantswarm.io
+  - name: giantswarm/team-shield
+    email: team-shield@giantswarm.io
