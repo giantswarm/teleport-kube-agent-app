@@ -144,10 +144,17 @@ kubeClusterName: ""
 apps:
   - name: grafana-goat-vnet
     uri: "http://grafana.monitoring.svc.cluster.local:80"
-    public_addr: "grafana.goat"
+    public_addr: "grafana.goat.giantswarm.com"
     labels:
       env: production
       app: grafana
+
+  - name: kyverno-goat-vnet
+    uri: "http://kyverno-ui.kyverno.svc.cluster.local:80"
+    public_addr: "kyverno.goat.giantswarm.com"
+    labels:
+      env: production
+      app: kyverno
 
 # appResources(list) -- is a set of labels the agent will monitor. Any application
 # matching those labels will be proxied by the agent. See [the Teleport
