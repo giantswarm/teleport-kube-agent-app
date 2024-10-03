@@ -150,7 +150,7 @@ apps:
       app: grafana
 
   - name: kyverno-goat-vnet
-    uri: "http://kyverno-ui.kyverno.svc.cluster.local:80"
+    uri: "http://kyverno-ui.kyverno.svc.cluster.local:8080"
     public_addr: "kyverno.goat.giantswarm.com"
     labels:
       env: production
