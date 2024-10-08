@@ -22,7 +22,7 @@ global:
 # ```yaml
 # roles: kube,app,discovery
 # ```
-roles: "kube"
+roles: kube, app
 
 # proxyAddr(string) -- provides the public-facing Teleport Proxy Service endpoint
 # which should be used to join the cluster. This is the same URL used to access
@@ -141,7 +141,20 @@ kubeClusterName: ""
 #   Application Service configuration in the [Application Service Configuration
 #   Reference](../../../enroll-resources/application-access/reference.mdx#configuration).
 # </Admonition>
-apps: []
+apps:
+  - name: grafana-golem-vnet
+    uri: "http://grafana.monitoring.svc.cluster.local:80"
+    public_addr: "grafana-golem.teleport.giantswarm.io"
+    labels:
+      env: production
+      app: grafana
+
+  - name: kyverno-golem-vnet
+    uri: "http://kyverno-ui.kyverno.svc.cluster.local:8080"
+    public_addr: "kyverno-golem.teleport.giantswarm.io"
+    labels:
+      env: production
+      app: kyverno
 
 # appResources(list) -- is a set of labels the agent will monitor. Any application
 # matching those labels will be proxied by the agent. See [the Teleport
