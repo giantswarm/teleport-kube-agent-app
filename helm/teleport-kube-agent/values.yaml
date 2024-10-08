@@ -142,16 +142,16 @@ kubeClusterName: ""
 #   Reference](../../../enroll-resources/application-access/reference.mdx#configuration).
 # </Admonition>
 apps:
-  - name: grafana-goat-vnet
+  - name: grafana-golem-vnet
     uri: "http://grafana.monitoring.svc.cluster.local:80"
-    public_addr: "grafana-goat.teleport.giantswarm.io"
+    public_addr: "grafana-golem.teleport.giantswarm.io"
     labels:
       env: production
       app: grafana
 
-  - name: kyverno-goat-vnet
+  - name: kyverno-golem-vnet
     uri: "http://kyverno-ui.kyverno.svc.cluster.local:8080"
-    public_addr: "kyverno-goat.teleport.giantswarm.io"
+    public_addr: "kyverno-golem.teleport.giantswarm.io"
     labels:
       env: production
       app: kyverno
