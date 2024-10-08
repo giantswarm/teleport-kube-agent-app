@@ -144,14 +144,14 @@ kubeClusterName: ""
 apps:
   - name: grafana-goat-vnet
     uri: "http://grafana.monitoring.svc.cluster.local:80"
-    public_addr: "grafana.goat.teleport.giantswarm.io"
+    public_addr: "grafana-goat.teleport.giantswarm.io"
     labels:
       env: production
       app: grafana
 
   - name: kyverno-goat-vnet
     uri: "http://kyverno-ui.kyverno.svc.cluster.local:8080"
-    public_addr: "kyverno.goat.teleport.giantswarm.io"
+    public_addr: "kyverno-goat.teleport.giantswarm.io"
     labels:
       env: production
       app: kyverno
