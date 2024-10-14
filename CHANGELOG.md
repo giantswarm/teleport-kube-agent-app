@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Disable chart-fail and error message if no apps set
+
 ## [0.10.3] - 2024-09-26
 
 ### Changed
