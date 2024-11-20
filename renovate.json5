@@ -3,4 +3,50 @@
     // Base config - https://github.com/giantswarm/renovate-presets/blob/main/default.json5
     "github>giantswarm/renovate-presets:default.json5",
   ],
+ "packageRules": [
+   {
+     "matchFileNames": ["helm/**/**/Chart.yaml"],
+     "matchStrings": ["appVersion: (?<currentValue>.*?)\\s"],
+     "excludeMatchStrings": ["version: (?<currentValue>.*?)\\s"],
+     "depNameTemplate": "gravitational/teleport",
+     "datasourceTemplate": "github-releases"
+   },
+   {
+     "matchPaths": [
+       "helm/teleport-kube-agent/ci/ci-values.yaml",
+       "helm/teleport-kube-agent/templates/_helpers.tpl",
+       "helm/teleport-kube-agent/templates/networkpolicy.yaml",
+       "helm/teleport-kube-agent/templates/psp.yaml"
+     ],
+     "enabled": false
+   },
+   {
+     "matchPaths": [
+       "helm/teleport-kube-agent/templates/delete_hook.yaml",
+       "helm/teleport-kube-agent/templates/deployment.yaml",
+       "helm/teleport-kube-agent/templates/statefulset.yaml"
+     ],
+     "matchStrings": ["image:.*"],
+     "enabled": false
+   },
+   {
+     "matchPaths": ["helm/teleport-kube-agent/templates/statefulset.yaml"],
+     "matchStrings": ["image:.*","env:.*"],
+     "enabled": false
+   },
+   {
+     "matchPaths": ["helm/teleport-kube-agent/values.yaml"],
+     "matchStrings": [
+       "global:.*",
+       "podSecurityStandards:.*",
+       "jamfCredentialsSecret:.*",
+       "highAvailability:.*",
+       "affinity:.*",
+       "image:.*registry.*",
+       "tolerations:.*",
+       "proxy:.*"
+     ],
+     "enabled": false
+   }
+ ]
 }
