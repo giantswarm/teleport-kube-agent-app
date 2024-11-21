@@ -42,9 +42,6 @@ kubernetes_service:
 
 app_service:
   {{- if $appRolePresent }}
-    {{- if not (or (.Values.apps) (.Values.appResources) ($appDiscoveryEnabled)) }}
-      {{- fail "app service is enabled, but no application source is enabled. You must either statically define apps through `apps`, dynamically through `appResources`, or enable in-cluster discovery." }}
-    {{- end }}
   enabled: true
   {{- if .Values.apps }}
     {{- range $app := .Values.apps }}
