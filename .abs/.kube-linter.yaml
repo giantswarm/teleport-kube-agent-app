@@ -1,8 +1,11 @@
 checks:
   addAllBuiltIn: true
   exclude:
-    - "no-liveness-probe"
-    - "no-readiness-probe"
-    - "access-to-secrets"
-    - "required-annotation-email"
-    - "required-label-owner"
+    - "dnsconfig-options"
+    - "no-anti-affinity"
+    - "no-node-affinity"
+    - "no-rolling-update-strategy"
+    - "non-isolated-pod"
+    - "unset-cpu-requirements"
+    - "unset-memory-requirements"
+    - "use-namespace"
