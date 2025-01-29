@@ -3,7 +3,7 @@
 ################################################################
 global:
   podSecurityStandards:
-    enforced: false
+    enforced: true
 
   image:
     registry: ""
