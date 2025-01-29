@@ -1077,7 +1077,7 @@ affinity:
       podAffinityTerm:
         labelSelector:
           matchLabels:
-            {{- include "labels.selector" . | nindent 12 }}
+            app: teleport-kube-agent
         topologyKey: "kubernetes.io/hostname"
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
