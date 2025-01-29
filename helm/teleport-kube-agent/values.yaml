@@ -1071,21 +1071,20 @@ log:
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 # for more details.
 affinity:
-  podAntiAffinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
     preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchLabels:
-            app: teleport-kube-agent
-        topologyKey: "kubernetes.io/hostname"
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - preference:
+      preference:
         matchExpressions:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
-      weight: 10
 
 # dnsConfig(object) -- contains custom Pod DNS Configuration for the agent pods.
 # This value is useful if you need to reduce the DNS load: set "ndots" to 0 and
@@ -1106,14 +1105,21 @@ affinity:
 #    - name: ndots
 #      value: "2"
 # ```
-dnsConfig: {}
+dnsConfig:
+  options:
+    - name: ndots
+      value: "5"
+    - name: timeout
+      value: "2"
+    - name: attempts
+      value: "2"
 
 # dnsPolicy(string) -- sets the Pod's DNS Policy
 #
 # See [the Kubernetes pod DNS documentation
 # ](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy)
 # for more information.
-dnsPolicy: ""
+dnsPolicy: "ClusterFirst"
 
 # nodeSelector(object) -- sets the node selector for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
