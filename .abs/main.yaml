@@ -6,3 +6,5 @@ catalog-base-url: https://giantswarm.github.io/giantswarm-catalog/
 
 replace-chart-version-with-git: true
 replace-app-version-with-git: false
+
+kubelinter-config: .abs/.kube-linter.yaml
