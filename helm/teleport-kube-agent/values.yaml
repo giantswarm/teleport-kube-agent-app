@@ -3,7 +3,7 @@
 ################################################################
 global:
   podSecurityStandards:
-    enforced: false
+    enforced: true
 
   image:
     registry: ""
@@ -1273,8 +1273,13 @@ initContainers: []
 # resources(object) -- sets the resource requests/limits for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 # for more details.
-resources: {}
-
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
 # initSecurityContext(object) -- sets the init container security context for any
 # pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
