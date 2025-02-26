@@ -1151,6 +1151,8 @@ extraLabels:
   secret: {}
   # extraLabels.serviceAccount(object) -- are labels to set on the ServiceAccount.
   serviceAccount: {}
+  # extraLabels.service(object) -- are labels to set on the headless Service.
+  service: {}
 
 # annotations -- contains annotations to apply to the different Kubernetes
 # objects created by the chart. See [the Kubernetes annotation
@@ -1173,6 +1175,9 @@ annotations:
   # annotations.serviceAccount(object) -- contains the Kubernetes annotations
   # put on the `ServiceAccount` resource created by the chart.
   serviceAccount: {}
+  # annotations.service(object) -- contains the Kubernetes annotations
+  # put on the headless `Service` resource created by the chart.
+  service: {}
 
 # extraArgs(list) -- contains extra arguments to pass to `teleport start` for
 # the main Teleport pod
