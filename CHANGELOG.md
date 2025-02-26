@@ -7,9 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-###
-- Added headless service on `diag` port
-
+### Added
+- Add headless service on `diag` port 3000.
 ### Changed
 - Migrated to ABS
 
