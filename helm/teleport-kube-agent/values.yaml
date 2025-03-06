@@ -3,7 +3,7 @@
 ################################################################
 global:
   podSecurityStandards:
-    enforced: false
+    enforced: true
 
   image:
     registry: ""
@@ -448,7 +448,7 @@ jamfCredentialsSecret:
   # Kubernetes `Secret` containing the Jamf Pro API Client Secret.
   # If false, you must create a Kubernetes Secret with the configured name in
   # the Helm release namespace.
-  create: true
+  create: false
   # jamfCredentialsSecret.name(string) -- is the name of the Kubernetes Secret
   # containing the Jamf Pro API Client Secret used by the chart.
   #
@@ -1273,8 +1273,13 @@ initContainers: []
 # resources(object) -- sets the resource requests/limits for any pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 # for more details.
-resources: {}
-
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
 # initSecurityContext(object) -- sets the init container security context for any
 # pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
@@ -1319,6 +1324,8 @@ securityContext:
 # To unset the security context, set it to `null` or `~`.
 podSecurityContext:
   fsGroup: 9807
+  seccompProfile:
+    type: RuntimeDefault
 
 # priorityClassName(string) -- sets the priority class used by any pods created by the chart.
 # The user is responsible for creating the `PriorityClass` resource before deploying the chart.
