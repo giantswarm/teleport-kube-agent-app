@@ -14,3 +14,4 @@ checks:
     - "access-to-secrets"
     - "required-annotation-email"
     - "required-label-owner"
+    - "pdb-unhealthy-pod-eviction-policy"
