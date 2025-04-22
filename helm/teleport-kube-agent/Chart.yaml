@@ -1,6 +1,6 @@
 apiVersion: v2
 name: teleport-kube-agent
-version: 0.10.4
+version: 0.10.5
 appVersion: 16.1.7
 description: Teleport provides a secure SSH, Kubernetes, database and application remote access solution that doesn't get in the way.
 icon: https://s.giantswarm.io/app-icons/teleport/1/light.png
