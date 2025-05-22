@@ -1,12 +1,3 @@
-{{/* Common labels */}}
-{{- define "labels.common" -}}
-app.kubernetes.io/name: {{ .Release.Name | quote }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
-app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
-{{- end }}
-
 {{- define "teleport.kube.agent.isUpgrade" -}}
 {{- /* Checks if action is an upgrade from an old release that didn't support Secret storage */}}
 {{- if .Release.IsUpgrade }}
@@ -42,7 +33,7 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- if .Values.teleportVersionOverride -}}
   {{- .Values.teleportVersionOverride -}}
 {{- else -}}
-  {{- .Chart.AppVersion -}}
+  {{- .Chart.Version -}}
 {{- end -}}
 {{- end -}}
 
@@ -50,18 +41,10 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
 {{- if .Values.enterprise -}}
   {{- .Values.enterpriseImage -}}
 {{- else -}}
-  {{- .Values.image.repository -}}
+  {{- .Values.image -}}
 {{- end -}}
 {{- end -}}
 
 {{- define "teleport-kube-agent.image" -}}
 {{ include "teleport-kube-agent.baseImage" . }}:{{ include "teleport-kube-agent.version" . }}
-{{- end -}}
-
-{{- define "registry" }}
-{{- $registry := .Values.image.registry -}}
-{{- if and .Values.global (and .Values.global.image .Values.global.image.registry) -}}
-{{- $registry = .Values.global.image.registry -}}
-{{- end -}}
-{{- printf "%s" $registry -}}
 {{- end -}}
