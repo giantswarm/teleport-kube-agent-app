@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.5] - 2025-04-22
 
+### Added
+
 - Set Home URL in chart metadata.
 
 ## [0.10.4] - 2025-03-18
