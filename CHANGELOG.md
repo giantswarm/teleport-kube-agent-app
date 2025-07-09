@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.6] - 2025-07-09
+
 ## [0.10.5] - 2025-04-22
 
 ### Added
@@ -115,7 +117,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.5...HEAD
+[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.6...HEAD
+[0.10.6]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.5...v0.10.6
 [0.10.5]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.4...v0.10.5
 [0.10.4]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.3...v0.10.4
 [0.10.3]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.2...v0.10.3
