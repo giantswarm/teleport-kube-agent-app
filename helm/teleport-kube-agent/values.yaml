@@ -810,7 +810,7 @@ highAvailability:
 podMonitor:
   # podMonitor.enabled(bool) -- controls if the chart deploys a PodMonitor.
   # This is disabled by default as it requires the PodMonitor CRD to be installed.
-  enabled: false
+  enabled: true
 
   # podMonitor.additionalLabels(object) -- adds labels on the PodMonitor.
   # This is used to be selected by a specific prometheus instance.
