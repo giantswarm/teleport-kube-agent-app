@@ -821,7 +821,8 @@ podMonitor:
   #   additionalLabels:
   #     prometheus: default
   # ```
-  additionalLabels: {}
+  additionalLabels:
+    application.giantswarm.io/team: shield
 
   # podMonitor.interval(string) -- is the interval between two metrics scrapes.
   interval: 30s
