@@ -1,17 +1,9 @@
 apiVersion: v2
-name: teleport-kube-agent
-version: 0.10.6
-appVersion: 17.5.4
-description: Teleport provides a secure SSH, Kubernetes, database and application remote access solution that doesn't get in the way.
-icon: https://s.giantswarm.io/app-icons/teleport/1/light.png
-type: application
-home: https://github.com/giantswarm/teleport-kube-agent-app
-sources:
-  - https://github.com/gravitational/teleport
+appVersion: 16.5.15
+description: Teleport provides a secure SSH, Kubernetes, database and application
+  remote access solution that doesn't get in the way.
+icon: https://goteleport.com/static/teleport-symbol-bimi.svg
 keywords:
-  - Teleport
-annotations:
-  application.giantswarm.io/team: shield
-maintainers:
-  - name: giantswarm/team-shield
-    email: team-shield@giantswarm.io
+- Teleport
+name: teleport-kube-agent
+version: 16.5.15
