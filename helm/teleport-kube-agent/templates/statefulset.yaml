@@ -13,6 +13,10 @@ metadata:
   {{- if .Values.extraLabels.deployment }}
     {{- toYaml .Values.extraLabels.deployment | nindent 4 }}
   {{- end }}
+  {{- if .Values.annotations.deployment }}
+  annotations:
+    {{- toYaml .Values.annotations.deployment | nindent 4 }}
+  {{- end }}
 spec:
   serviceName: {{ .Release.Name }}
   replicas: {{ $replicaCount }}
@@ -44,6 +48,9 @@ spec:
       {{- end }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- toYaml .Values.podSecurityContext | nindent 8}}
+      {{- end }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       {{- if or .Values.affinity (gt (int $replicaCount) 1) }}
       affinity:
@@ -107,11 +114,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
           {{- end }}
-        #  {{- if contains "jamf" (.Values.roles | toString) }}
-        #- mountPath: /etc/teleport-jamf-api-credentials
-        #  name: "jamf-api-credentials"
-        #  readOnly: true
-        #  {{- end }}
+          {{- if contains "jamf" (.Values.roles | toString) }}
+        - mountPath: /etc/teleport-jamf-api-credentials
+          name: "jamf-api-credentials"
+          readOnly: true
+          {{- end }}
   {{- if .Values.extraVolumeMounts }}
     {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
   {{- end }}
@@ -126,26 +133,11 @@ spec:
       {{- end }}
       containers:
       - name: "teleport"
-        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+        image: {{ include "teleport-kube-agent.image" . | quote }}
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
         env:
-          {{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
-          {{- if and $proxy.noProxy $proxy.http $proxy.https }}
-          - name: NO_PROXY
-            value: {{ $proxy.noProxy }}
-          - name: no_proxy
-            value: {{ $proxy.noProxy }}
-          - name: HTTP_PROXY
-            value: {{ $proxy.http }}
-          - name: http_proxy
-            value: {{ $proxy.http }}
-          - name: HTTPS_PROXY
-            value: {{ $proxy.https }}
-          - name: https_proxy
-            value: {{ $proxy.https }}
-          {{- end }}
           # This variable is set for telemetry purposes.
           # Telemetry is opt-in and controlled at the auth level.
           - name: TELEPORT_INSTALL_METHOD_HELM_KUBE_AGENT
@@ -166,12 +158,20 @@ spec:
           - name: TELEPORT_EXT_UPGRADER_VERSION
             value: {{ include "teleport-kube-agent.version" . }}
           {{- end }}
+          {{- if .Values.clusterDomain }}
+          - name: TELEPORT_KUBE_CLUSTER_DOMAIN
+            value: {{ .Values.clusterDomain | quote }}
+          {{- end }}
           {{- if .Values.tls.existingCASecretName }}
           - name: SSL_CERT_FILE
             value: /etc/teleport-tls-ca/ca.pem
           {{- end }}
           {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 10 }}
+          {{- end }}
+          {{- if .Values.teleportClusterName }}
+          - name: KUBERNETES_TOKEN_PATH
+            value: /var/run/secrets/tokens/join-sa-token
           {{- end }}
         args:
         - "--diag-addr=0.0.0.0:3000"
@@ -215,6 +215,11 @@ spec:
         - mountPath: /etc/teleport-secrets
           name: "auth-token"
           readOnly: true
+{{- if .Values.teleportClusterName }}
+        - mountPath: /var/run/secrets/tokens
+          name: join-sa-token
+          readOnly: true
+{{- end }}
 {{- if .Values.storage.enabled }}
         - mountPath: /var/lib/teleport
           name: "{{ .Release.Name }}-teleport-data"
@@ -227,11 +232,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
 {{- end }}
-#{{- if contains "jamf" (.Values.roles | toString) }}
-#        - mountPath: /etc/teleport-jamf-api-credentials
-#          name: "jamf-api-credentials"
-#          readOnly: true
-#{{- end }}
+{{- if contains "jamf" (.Values.roles | toString) }}
+        - mountPath: /etc/teleport-jamf-api-credentials
+          name: "jamf-api-credentials"
+          readOnly: true
+{{- end }}
 {{- if .Values.extraVolumeMounts }}
   {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -245,6 +250,19 @@ spec:
       - name: "auth-token"
         secret:
           secretName: {{ coalesce .Values.secretName .Values.joinTokenSecret.name }}
+      {{- if .Values.teleportClusterName }}
+      {{- /* This volume is used to obtain a service account token that can be used
+       to join the Teleport cluster using the kubernetes join method.
+       To ensure backward compatibility, we use .Values.teleportClusterName as a feature flag.
+       The token must have the cluster name as audience, and its TTL must not exceed 30 minutes. */}}
+      - name: join-sa-token
+        projected:
+          sources:
+            - serviceAccountToken:
+                path: join-sa-token
+                expirationSeconds: 600
+                audience: {{ .Values.teleportClusterName }}
+      {{- end }}
 {{- if not .Values.storage.enabled }}
       - name: "data"
         emptyDir: {}
@@ -254,11 +272,11 @@ spec:
         secret:
           secretName: {{ .Values.tls.existingCASecretName }}
 {{- end }}
-#{{- if contains "jamf" (.Values.roles | toString) }}
-#      - name: "jamf-api-credentials"
-#        secret:
-#          secretName: {{ .Values.jamfCredentialsSecret.name }}
-#{{- end }}
+{{- if contains "jamf" (.Values.roles | toString) }}
+      - name: "jamf-api-credentials"
+        secret:
+          secretName: {{ .Values.jamfCredentialsSecret.name }}
+{{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 6 }}
 {{- end }}
