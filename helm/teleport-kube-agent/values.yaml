@@ -480,6 +480,17 @@ jamfCredentialsSecret:
 # Values that you may need to change.
 ################################################################
 
+# cleanStateOnUpgrade(bool) -- controls whether teleport-kube-agent state secrets
+# are cleaned up before Helm upgrades. This ensures agents start fresh with new
+# configuration when config changes are detected.
+#
+# When enabled, a pre-upgrade hook will run `teleport kube-state delete` before
+# the StatefulSet is updated, removing any stale state secrets.
+#
+# Set to `true` if you want automatic state cleanup on config changes (recommended).
+# Set to `false` if you want to preserve state across upgrades.
+cleanStateOnUpgrade: true
+
 # teleportVersionOverride(string) -- controls the Teleport Kubernetes Operator
 # image version deployed by the chart.
 #

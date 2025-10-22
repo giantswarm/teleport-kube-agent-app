@@ -1,0 +1,122 @@
+{{- if .Values.cleanStateOnUpgrade }}
+#
+# Pre-upgrade hook to clean teleport-kube-agent state secrets before upgrade.
+# This ensures agents start fresh when configuration changes.
+#
+# The hook runs before the upgrade and uses the existing 'teleport kube-state delete'
+# command that is already used in the post-delete hook.
+#
+{{- if .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-pre-upgrade-cleanup
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+{{- if .Values.extraLabels.serviceAccount }}
+  labels:
+  {{- toYaml .Values.extraLabels.serviceAccount | nindent 4 }}
+{{- end }}
+---
+{{- end }}
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}-pre-upgrade-cleanup
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-9"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+{{- if .Values.extraLabels.role }}
+  labels:
+  {{- toYaml .Values.extraLabels.role | nindent 4 }}
+{{- end }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "delete", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Release.Name }}-pre-upgrade-cleanup
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-8"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+{{- if .Values.extraLabels.roleBinding }}
+  labels:
+  {{- toYaml .Values.extraLabels.roleBinding | nindent 4 }}
+{{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ .Release.Name }}-pre-upgrade-cleanup
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}-pre-upgrade-cleanup
+  namespace: {{ .Release.Namespace }}
+---
+{{- end }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-pre-upgrade-cleanup-{{ now | date "20060102-150405" }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-7"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+{{- if .Values.extraLabels.job }}
+  labels:
+  {{- toYaml .Values.extraLabels.job | nindent 4 }}
+{{- end }}
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: {{ .Release.Name }}-pre-upgrade-cleanup
+    spec:
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+  {{- toYaml .Values.imagePullSecrets | nindent 6 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+{{- end }}
+      serviceAccountName: {{ .Release.Name }}-pre-upgrade-cleanup
+      restartPolicy: OnFailure
+{{- if .Values.tolerations }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 6 }}
+{{- end }}
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+{{- end }}
+      containers:
+      - name: cleanup-state
+        env:
+          - name: KUBE_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: RELEASE_NAME
+            value: {{ .Release.Name }}
+        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+        {{- if .Values.imagePullPolicy }}
+        imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
+        {{- end }}
+        command: ["teleport"]
+        args: ["kube-state", "delete"]
+        {{- if .Values.securityContext }}
+        securityContext: {{- toYaml .Values.securityContext | nindent 10 }}
+        {{- end }}
+{{- end }}
+
