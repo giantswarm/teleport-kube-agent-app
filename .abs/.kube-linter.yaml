@@ -15,3 +15,4 @@ checks:
     - "required-annotation-email"
     - "required-label-owner"
     - "pdb-unhealthy-pod-eviction-policy"
+    - "no-read-only-root-fs"
