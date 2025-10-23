@@ -80,6 +80,8 @@ metadata:
 {{- end }}
 spec:
   backoffLimit: 3
+  # Clean up the job automatically after 24 hours
+  ttlSecondsAfterFinished: 86400
   template:
     metadata:
       name: {{ .Release.Name }}-pre-upgrade-cleanup
