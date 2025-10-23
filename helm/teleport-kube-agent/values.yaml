@@ -491,6 +491,13 @@ jamfCredentialsSecret:
 # Set to `false` if you want to preserve state across upgrades.
 cleanStateOnUpgrade: true
 
+# cleanStateImage(object) -- configures the container image used for the
+# pre-upgrade state cleanup hook. Uses Giant Swarm's docker-kubectl image.
+cleanStateImage:
+  registry: gsoci.azurecr.io
+  repository: giantswarm/docker-kubectl
+  tag: "1.24.2"
+
 # teleportVersionOverride(string) -- controls the Teleport Kubernetes Operator
 # image version deployed by the chart.
 #

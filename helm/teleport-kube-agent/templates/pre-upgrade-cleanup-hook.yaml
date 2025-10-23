@@ -116,7 +116,10 @@ spec:
             value: {{ .Release.Name }}
         # Using Giant Swarm's docker-kubectl image for reliable secret deletion
         # The teleport-distroless image does not have kubectl or kube-state command
-        image: '{{ include "registry" . }}/giantswarm/docker-kubectl:1.28.3'
+        {{- $registry := .Values.cleanStateImage.registry | default "gsoci.azurecr.io" }}
+        {{- $repository := .Values.cleanStateImage.repository | default "giantswarm/docker-kubectl" }}
+        {{- $tag := .Values.cleanStateImage.tag | default "1.24.2" }}
+        image: '{{ $registry }}/{{ $repository }}:{{ $tag }}'
         imagePullPolicy: IfNotPresent
         command:
           - /bin/bash
