@@ -3,8 +3,9 @@
 # Pre-upgrade hook to clean teleport-kube-agent state secrets before upgrade.
 # This ensures agents start fresh when configuration changes.
 #
-# The hook runs before the upgrade and uses the existing 'teleport kube-state delete'
-# command that is already used in the post-delete hook.
+# The hook runs before the upgrade and uses kubectl to delete state secrets.
+# This is more reliable than the 'teleport kube-state delete' command which
+# may not be available in all Teleport versions.
 #
 {{- if .Values.serviceAccount.create }}
 apiVersion: v1
@@ -92,6 +93,8 @@ spec:
 {{- end }}
       serviceAccountName: {{ .Release.Name }}-pre-upgrade-cleanup
       restartPolicy: OnFailure
+      # ServiceAccount token automatically mounted for kubectl authentication
+      automountServiceAccountToken: true
 {{- if .Values.tolerations }}
       tolerations:
         {{- toYaml .Values.tolerations | nindent 6 }}
@@ -109,14 +112,51 @@ spec:
                 fieldPath: metadata.namespace
           - name: RELEASE_NAME
             value: {{ .Release.Name }}
-        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
-        {{- if .Values.imagePullPolicy }}
-        imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
-        {{- end }}
-        command: ["teleport"]
-        args: ["kube-state", "delete"]
-        {{- if .Values.securityContext }}
-        securityContext: {{- toYaml .Values.securityContext | nindent 10 }}
-        {{- end }}
+        # Using Giant Swarm's docker-kubectl image for reliable secret deletion
+        # The teleport-distroless image does not have kubectl or kube-state command
+        image: '{{ include "registry" . }}/giantswarm/docker-kubectl:1.28.3'
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            set -euo pipefail
+            echo "=== Teleport Kube Agent Pre-Upgrade State Cleanup ==="
+            echo "Namespace: ${KUBE_NAMESPACE}"
+            echo "Release: ${RELEASE_NAME}"
+            echo ""
+            
+            # Find all state secrets for this release
+            echo "Searching for state secrets matching: ${RELEASE_NAME}-*-state"
+            SECRETS=$(kubectl get secrets -n "${KUBE_NAMESPACE}" \
+              -o name \
+              2>/dev/null | grep -E "${RELEASE_NAME}-[0-9]+-state" || true)
+            
+            if [ -z "$SECRETS" ]; then
+              echo "No state secrets found. Nothing to clean up."
+              exit 0
+            fi
+            
+            echo "Found state secrets:"
+            echo "$SECRETS"
+            echo ""
+            
+            # Delete each secret
+            echo "Deleting state secrets..."
+            for secret in $SECRETS; do
+              echo "  Deleting: $secret"
+              kubectl delete -n "${KUBE_NAMESPACE}" "$secret" || echo "  Warning: Failed to delete $secret"
+            done
+            
+            echo ""
+            echo "=== State cleanup completed successfully ==="
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: false  # kubectl needs to write to /tmp
+          runAsNonRoot: true
+          runAsUser: 1000  # docker-kubectl default user
 {{- end }}
 
