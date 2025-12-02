@@ -171,17 +171,17 @@ spec:
           httpGet:
             path: /healthz
             port: diag
-          initialDelaySeconds: 5 # wait 5s for agent to start
-          periodSeconds: 5 # poll health every 5s
-          failureThreshold: 6 # consider agent unhealthy after 30s (6 * 5s)
+          initialDelaySeconds: 10 # wait 10s for agent to start
+          periodSeconds: 10 # poll health every 10s
+          failureThreshold: 6 # consider agent unhealthy after 60s (6 * 10s)
           timeoutSeconds: {{ .Values.probeTimeoutSeconds }}
         readinessProbe:
           httpGet:
             path: /readyz
             port: diag
-          initialDelaySeconds: 5 # wait 5s for agent to register
-          periodSeconds: 5 # poll health every 5s
-          failureThreshold: 12 # consider agent unhealthy after 60s (12 * 5s)
+          initialDelaySeconds: 15 # wait 15s for agent to register
+          periodSeconds: 10 # poll health every 10s
+          failureThreshold: 18 # consider agent unhealthy after 180s (18 * 10s)
           timeoutSeconds: {{ .Values.probeTimeoutSeconds }}
 {{- if .Values.resources }}
         resources:
