@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `ephemeral-storage` requests and limits to satisfy Kyverno policy `require-emptydir-requests-and-limits`.
+
 ### Changed
 
 - Enable upstream-provided Prometheus PodMonitor to scrape metrics from Teleport Kube Agent pods.
