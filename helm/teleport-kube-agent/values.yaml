@@ -1347,9 +1347,6 @@ tolerations:
   - effect: NoSchedule
     key: node.cluster.x-k8s.io/uninitialized
     operator: "Exists"
-  - effect: NoSchedule
-    key: node.cloudprovider.kubernetes.io/uninitialized
-    operator: "Exists"
 
 # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
