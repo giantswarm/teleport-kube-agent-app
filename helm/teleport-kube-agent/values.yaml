@@ -1283,9 +1283,11 @@ resources:
   requests:
     cpu: 100m
     memory: 256Mi
+    ephemeral-storage: 256Mi
   limits:
     cpu: 1000m
     memory: 512Mi
+    ephemeral-storage: 512Mi
 # initSecurityContext(object) -- sets the init container security context for any
 # pods created by the chart.
 # See [the Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
