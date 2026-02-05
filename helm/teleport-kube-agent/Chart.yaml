@@ -12,6 +12,8 @@ keywords:
   - Teleport
 annotations:
   application.giantswarm.io/team: shield
+  io.giantswarm.application.audience: all
+  io.giantswarm.application.managed: "true"
 maintainers:
   - name: giantswarm/team-shield
     email: team-shield@giantswarm.io
