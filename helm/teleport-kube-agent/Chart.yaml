@@ -11,7 +11,9 @@ sources:
 keywords:
   - Teleport
 annotations:
-  application.giantswarm.io/team: shield
+  io.giantswarm.application.audience: giantswarm
+  io.giantswarm.application.managed: "true"
+  io.giantswarm.application.team: shield
 maintainers:
   - name: giantswarm/team-shield
     email: team-shield@giantswarm.io
