@@ -15,3 +15,6 @@ checks:
     - "required-annotation-email"
     - "required-label-owner"
     - "pdb-unhealthy-pod-eviction-policy"
+    - "sorted-keys"
+    - "restart-policy"
+    - "job-ttl-seconds-after-finished"
