@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.8] - 2026-02-19
+
 ### Added
 
 - Add `io.giantswarm.application.audience` and `io.giantswarm.application.managed` chart annotations for Backstage visibility.
@@ -139,7 +141,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.7...HEAD
+[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.8...HEAD
+[0.10.8]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.7...v0.10.8
 [0.10.7]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.6...v0.10.7
 [0.10.6]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.5...v0.10.6
 [0.10.5]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.4...v0.10.5
