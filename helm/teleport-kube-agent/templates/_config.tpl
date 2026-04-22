@@ -15,6 +15,9 @@ teleport:
   {{- else }}
   auth_servers: ["{{ required "proxyAddr is required in chart values" .Values.proxyAddr }}"]
   {{- end }}
+  {{- with .Values.relayAddr }}
+  relay_server: {{ . | quote }}
+  {{- end }}
   {{- if .Values.caPin }}
   ca_pin: {{- toYaml .Values.caPin | nindent 4 }}
   {{- end }}
@@ -127,6 +130,16 @@ discovery_service:
 {{- else }}
   enabled: false
 {{- end }}
+
+jamf_service:
+  {{- if contains "jamf" (.Values.roles | toString) }}
+  enabled: true
+  api_endpoint: {{ required "jamfApiEndpoint is required in chart values when jamf role is enabled, see README" .Values.jamfApiEndpoint }}
+  client_id: {{ required "jamfClientId is required in chart values when jamf role is enabled, see README" .Values.jamfClientId }}
+  client_secret_file: "/etc/teleport-jamf-api-credentials/credential"
+  {{- else }}
+  enabled: false
+  {{- end }}
 
 auth_service:
   enabled: false

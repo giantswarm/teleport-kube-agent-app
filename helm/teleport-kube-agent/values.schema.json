@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
-        "global",
         "proxyAddr",
+        "relayAddr",
         "roles",
         "joinParams",
         "kubeClusterName",
@@ -38,34 +38,9 @@
         "initContainers",
         "resources",
         "tolerations",
-        "probeTimeoutSeconds",
-        "proxy",
-        "cluster"
+        "probeTimeoutSeconds"
     ],
     "properties": {
-        "global": {
-            "$id": "#/properties/global",
-            "type": "object",
-            "required": [
-                "podSecurityStandards"
-            ],
-            "properties": {
-                "podSecurityStandards": {
-                    "$id": "#/properties/global/properties/podSecurityStandards",
-                    "type": "object",
-                    "required": [
-                        "enforced"
-                    ],
-                    "properties": {
-                        "enforced": {
-                            "$id": "#/properties/global/properties/podSecurityStandards/properties/enforced",
-                            "type": "boolean",
-                            "default": false
-                        }
-                    }
-                }
-            }
-        },
         "authToken": {
             "$id": "#/properties/authToken",
             "type": "string",
@@ -73,6 +48,11 @@
         },
         "proxyAddr": {
             "$id": "#/properties/proxyAddr",
+            "type": "string",
+            "default": ""
+        },
+        "relayAddr": {
+            "$id": "#/properties/relayAddr",
             "type": "string",
             "default": ""
         },
@@ -101,6 +81,11 @@
         },
         "kubeClusterName": {
             "$id": "#/properties/kubeClusterName",
+            "type": "string",
+            "default": ""
+        },
+        "teleportClusterName": {
+            "$id": "#/properties/teleportClusterName",
             "type": "string",
             "default": ""
         },
@@ -278,17 +263,28 @@
             "type": "object",
             "default": {}
         },
+        "terminationGracePeriodSeconds": {
+            "$id": "#/properties/terminationGracePeriodSeconds",
+            "type": "integer",
+            "default": 30
+        },
         "tls": {
             "$id": "#/properties/tls",
             "type": "object",
             "required": [
-                "existingCASecretName"
+                "existingCASecretName",
+                "existingCASecretKeyName"
             ],
             "properties": {
                 "existingCASecretName": {
                     "$id": "#/properties/tls/properties/existingCASecretName",
                     "type": "string",
                     "default": ""
+                },
+                "existingCASecretKeyName": {
+                    "$id": "#/properties/tls/properties/existingCASecretKeyName",
+                    "type": "string",
+                    "default": "ca.pem"
                 }
             }
         },
@@ -368,19 +364,8 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "object",
-            "properties": {
-                "registry": {
-                    "$id": "#/properties/image/registry",
-                    "type": "string",
-                    "default": "public.ecr.aws"
-                },
-                "repository": {
-                    "$id": "#/properties/image/repository",
-                    "type": "string",
-                    "default": "gravitational/teleport-distroless"
-                }
-            }
+            "type": "string",
+            "default": "public.ecr.aws/gravitational/teleport-distroless"
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
@@ -395,7 +380,7 @@
         "replicaCount": {
             "$id": "#/properties/replicaCount",
             "type": "integer",
-            "default": 2
+            "default": 1
         },
         "clusterRoleName": {
             "$id": "#/properties/clusterRoleName",
@@ -437,7 +422,7 @@
                         "enabled": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/enabled",
                             "type": "boolean",
-                            "default": true
+                            "default": false
                         },
                         "minAvailable": {
                             "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/minAvailable",
@@ -550,6 +535,11 @@
             "$id": "#/properties/affinity",
             "type": "object",
             "default": {}
+        },
+        "topologySpreadConstraints": {
+            "$id": "#/properties/topologySpreadConstraints",
+            "type": "array",
+            "default": []
         },
         "dnsConfig": {
             "$id": "#/properties/dnsConfig",
@@ -790,7 +780,7 @@
                 "create": {
                     "$id": "#/properties/jamfCredentialsSecret/create",
                     "type": "boolean",
-                    "default": false
+                    "default": true
                 },
                 "name": {
                     "$id": "#/properties/jamfCredentialsSecret/name",
@@ -814,41 +804,6 @@
             "$id": "#/properties/jamfSecret",
             "type": "string",
             "default": ""
-        },
-        "proxy": {
-            "$id": "#/properties/proxy",
-            "type": "object",
-            "properties": {
-                "http": {
-                    "type": ["null", "string"]
-                },
-                "https": {
-                    "type": ["null", "string"]
-                },
-                "noProxy": {
-                    "type": ["null", "string"]
-                }
-            }
-        },
-        "cluster": {
-            "$id": "#/properties/cluster",
-            "type": "object",
-            "properties": {
-                "proxy": {
-                    "type": "object",
-                    "properties": {
-                        "http": {
-                            "type": ["null", "string"]
-                        },
-                        "https": {
-                            "type": ["null", "string"]
-                        },
-                        "noProxy": {
-                            "type": ["null", "string"]
-                        }
-                    }
-                }
-            }           
         }
     }
 }
