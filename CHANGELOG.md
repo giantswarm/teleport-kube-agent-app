@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Enable upstream-provided Prometheus PodMonitor to scrape metrics from Teleport Kube Agent pods.
+- Increase readiness probe timeout to 180s (from 60s) and liveness probe to 60s (from 30s) to improve reliability during initial cluster deployment and reduce flakiness in MC Bootstrap.
+- Increase probe timeout from 1s to 5s to handle slow network conditions better.
 
 ## [0.10.6] - 2025-07-09
 
