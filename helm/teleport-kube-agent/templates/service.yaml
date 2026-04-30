@@ -6,12 +6,12 @@ metadata:
   labels:
     app: {{ .Release.Name }}
     {{- include "labels.common" . | nindent 4 }}
-  {{- if .Values.extraLabels.service }}
-    {{- toYaml .Values.extraLabels.service | nindent 4 }}
+  {{- if (index .Values "teleport-kube-agent" "extraLabels" "service") }}
+    {{- toYaml (index .Values "teleport-kube-agent" "extraLabels" "service") | nindent 4 }}
   {{- end }}
-  {{- if .Values.annotations.service }}
+  {{- if (index .Values "teleport-kube-agent" "annotations" "service") }}
   annotations:
-    {{- toYaml .Values.annotations.service | nindent 4 }}
+    {{- toYaml (index .Values "teleport-kube-agent" "annotations" "service") | nindent 4 }}
   {{- end }}
 spec:
   clusterIP: None
