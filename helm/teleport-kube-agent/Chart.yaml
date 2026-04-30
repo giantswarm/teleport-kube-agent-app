@@ -17,3 +17,6 @@ annotations:
 maintainers:
   - name: giantswarm/team-shield
     email: team-shield@giantswarm.io
+dependencies:
+  - name: teleport-kube-agent
+    version: 17.5.4
