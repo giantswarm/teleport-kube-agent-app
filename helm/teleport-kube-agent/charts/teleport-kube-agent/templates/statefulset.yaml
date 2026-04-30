@@ -114,11 +114,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
           {{- end }}
-          {{- if contains "jamf" (.Values.roles | toString) }}
-        - mountPath: /etc/teleport-jamf-api-credentials
-          name: "jamf-api-credentials"
-          readOnly: true
-          {{- end }}
+        #   {{- if contains "jamf" (.Values.roles | toString) }}
+        # - mountPath: /etc/teleport-jamf-api-credentials
+        #   name: "jamf-api-credentials"
+        #   readOnly: true
+        #   {{- end }}
   {{- if .Values.extraVolumeMounts }}
     {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
   {{- end }}
@@ -133,11 +133,28 @@ spec:
       {{- end }}
       containers:
       - name: "teleport"
-        image: {{ include "teleport-kube-agent.image" . | quote }}
+        # GS custom registry support
+        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
         env:
+          # GS custom values for proxy settings
+          {{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
+          {{- if and $proxy.noProxy $proxy.http $proxy.https }}
+          - name: NO_PROXY
+            value: {{ $proxy.noProxy }}
+          - name: no_proxy
+            value: {{ $proxy.noProxy }}
+          - name: HTTP_PROXY
+            value: {{ $proxy.http }}
+          - name: http_proxy
+            value: {{ $proxy.http }}
+          - name: HTTPS_PROXY
+            value: {{ $proxy.https }}
+          - name: https_proxy
+            value: {{ $proxy.https }}
+          {{- end }}
           # This variable is set for telemetry purposes.
           # Telemetry is opt-in and controlled at the auth level.
           - name: TELEPORT_INSTALL_METHOD_HELM_KUBE_AGENT
@@ -223,11 +240,11 @@ spec:
           name: "teleport-tls-ca"
           readOnly: true
 {{- end }}
-{{- if contains "jamf" (.Values.roles | toString) }}
-        - mountPath: /etc/teleport-jamf-api-credentials
-          name: "jamf-api-credentials"
-          readOnly: true
-{{- end }}
+# {{- if contains "jamf" (.Values.roles | toString) }}
+#         - mountPath: /etc/teleport-jamf-api-credentials
+#           name: "jamf-api-credentials"
+#           readOnly: true
+# {{- end }}
 {{- if .Values.extraVolumeMounts }}
   {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -250,11 +267,11 @@ spec:
         secret:
           secretName: {{ .Values.tls.existingCASecretName }}
 {{- end }}
-{{- if contains "jamf" (.Values.roles | toString) }}
-      - name: "jamf-api-credentials"
-        secret:
-          secretName: {{ .Values.jamfCredentialsSecret.name }}
-{{- end }}
+# {{- if contains "jamf" (.Values.roles | toString) }}
+#       - name: "jamf-api-credentials"
+#         secret:
+#           secretName: {{ .Values.jamfCredentialsSecret.name }}
+# {{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 6 }}
 {{- end }}
