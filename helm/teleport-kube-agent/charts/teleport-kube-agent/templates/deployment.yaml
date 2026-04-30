@@ -126,6 +126,7 @@ spec:
       {{- end }}
       containers:
       - name: "teleport"
+        # GS custom registry support
         image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
