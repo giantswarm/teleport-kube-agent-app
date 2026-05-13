@@ -1,10 +1,11 @@
 #
-# Warning to maintainers, any changes to this file that are not specific to the StatefulSet need to also be duplicated
-# in the deployment.yaml file.
+# Warning to maintainers, any changes to this file that are not specific to the Deployment need to also be duplicated
+# in the statefulset.yaml file.
 #
+{{- if and (not .Values.storage.enabled) (include "teleport.kube.agent.isUpgrade" . ) }}
 {{- $replicaCount := (coalesce .Values.replicaCount .Values.highAvailability.replicaCount "1") }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
@@ -13,8 +14,11 @@ metadata:
   {{- if .Values.extraLabels.deployment }}
     {{- toYaml .Values.extraLabels.deployment | nindent 4 }}
   {{- end }}
+  {{- if .Values.annotations.deployment }}
+  annotations:
+    {{- toYaml .Values.annotations.deployment | nindent 4 }}
+  {{- end }}
 spec:
-  serviceName: {{ .Release.Name }}
   replicas: {{ $replicaCount }}
   selector:
     matchLabels:
@@ -39,11 +43,11 @@ spec:
       {{- if .Values.dnsPolicy }}
       dnsPolicy: {{ .Values.dnsPolicy | quote }}
       {{- end }}
-      {{- if .Values.hostAliases }}
-      hostAliases: {{- toYaml .Values.hostAliases | nindent 8 }}
-      {{- end }}
       {{- if .Values.podSecurityContext }}
       securityContext: {{- toYaml .Values.podSecurityContext | nindent 8}}
+      {{- end }}
+      {{- if .Values.hostAliases }}
+      hostAliases: {{- toYaml .Values.hostAliases | nindent 8 }}
       {{- end }}
       {{- if or .Values.affinity (gt (int $replicaCount) 1) }}
       affinity:
@@ -101,78 +105,54 @@ spec:
           name: "auth-token"
           readOnly: true
         - mountPath: /var/lib/teleport
-          name: "{{ .Release.Name }}-teleport-data"
+          name: "data"
           {{- if .Values.tls.existingCASecretName }}
         - mountPath: /etc/teleport-tls-ca
           name: "teleport-tls-ca"
           readOnly: true
           {{- end }}
-        #  {{- if contains "jamf" (.Values.roles | toString) }}
-        #- mountPath: /etc/teleport-jamf-api-credentials
-        #  name: "jamf-api-credentials"
-        #  readOnly: true
-        #  {{- end }}
+        #   {{- if contains "jamf" (.Values.roles | toString) }}
+        # - mountPath: /etc/teleport-jamf-api-credentials
+        #   name: "jamf-api-credentials"
+        #   readOnly: true
+        #   {{- end }}
   {{- if .Values.extraVolumeMounts }}
     {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
   {{- end }}
 {{- end }}
-{{- if .Values.priorityClassName }}
-      priorityClassName: {{ .Values.priorityClassName }}
-{{- end }}
-      serviceAccountName: {{ template "teleport-kube-agent.serviceAccountName" . }}
       {{- if .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}
       {{- end }}
       containers:
       - name: "teleport"
+        # GS custom registry support
         image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
         env:
-          {{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
-          {{- if and $proxy.noProxy $proxy.http $proxy.https }}
-          - name: NO_PROXY
-            value: {{ $proxy.noProxy }}
-          - name: no_proxy
-            value: {{ $proxy.noProxy }}
-          - name: HTTP_PROXY
-            value: {{ $proxy.http }}
-          - name: http_proxy
-            value: {{ $proxy.http }}
-          - name: HTTPS_PROXY
-            value: {{ $proxy.https }}
-          - name: https_proxy
-            value: {{ $proxy.https }}
-          {{- end }}
-          # This variable is set for telemetry purposes.
-          # Telemetry is opt-in and controlled at the auth level.
-          - name: TELEPORT_INSTALL_METHOD_HELM_KUBE_AGENT
-            value: "true"
-          - name: TELEPORT_REPLICA_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: KUBE_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: RELEASE_NAME
-            value: {{ .Release.Name }}
-          {{- if .Values.updater.enabled }}
-          - name: TELEPORT_EXT_UPGRADER
-            value: kube
-          - name: TELEPORT_EXT_UPGRADER_VERSION
-            value: {{ include "teleport-kube-agent.version" . }}
-          {{- end }}
-          {{- if .Values.tls.existingCASecretName }}
-          - name: SSL_CERT_FILE
-            value: /etc/teleport-tls-ca/ca.pem
-          {{- end }}
-          {{- if .Values.extraEnv }}
-            {{- toYaml .Values.extraEnv | nindent 10 }}
-          {{- end }}
+        # This variable is set for telemetry purposes.
+        # Telemetry is opt-in for oss users and controlled at the auth level.
+        - name: TELEPORT_INSTALL_METHOD_HELM_KUBE_AGENT
+          value: "true"
+        {{- if .Values.updater.enabled }}
+        - name: TELEPORT_EXT_UPGRADER
+          value: kube
+        - name: TELEPORT_EXT_UPGRADER_VERSION
+          value: {{ include "teleport-kube-agent.version" . }}
+        {{- end }}
+        {{- if .Values.clusterDomain }}
+        - name: TELEPORT_KUBE_CLUSTER_DOMAIN
+          value: {{ .Values.clusterDomain | quote }}
+        {{- end }}
+        {{- if (gt (len .Values.extraEnv) 0) }}
+          {{- toYaml .Values.extraEnv | nindent 8 }}
+        {{- end }}
+        {{- if .Values.tls.existingCASecretName }}
+        - name: SSL_CERT_FILE
+          value: /etc/teleport-tls-ca/ca.pem
+        {{- end }}
         args:
         - "--diag-addr=0.0.0.0:3000"
         {{- if .Values.insecureSkipProxyTLSVerify }}
@@ -215,23 +195,18 @@ spec:
         - mountPath: /etc/teleport-secrets
           name: "auth-token"
           readOnly: true
-{{- if .Values.storage.enabled }}
         - mountPath: /var/lib/teleport
-          name: "{{ .Release.Name }}-teleport-data"
-{{- else }}
-        - mountPath: /var/lib/teleport
-          name: "data"
-{{- end }}
-{{- if .Values.tls.existingCASecretName }}
+          name: {{ default "data" .Values.existingDataVolume }}
+          {{- if .Values.tls.existingCASecretName }}
         - mountPath: /etc/teleport-tls-ca
           name: "teleport-tls-ca"
           readOnly: true
-{{- end }}
-#{{- if contains "jamf" (.Values.roles | toString) }}
-#        - mountPath: /etc/teleport-jamf-api-credentials
-#          name: "jamf-api-credentials"
-#          readOnly: true
-#{{- end }}
+          {{- end }}
+        #   {{- if contains "jamf" (.Values.roles | toString) }}
+        # - mountPath: /etc/teleport-jamf-api-credentials
+        #   name: "jamf-api-credentials"
+        #   readOnly: true
+        #   {{- end }}
 {{- if .Values.extraVolumeMounts }}
   {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -245,31 +220,25 @@ spec:
       - name: "auth-token"
         secret:
           secretName: {{ coalesce .Values.secretName .Values.joinTokenSecret.name }}
-{{- if not .Values.storage.enabled }}
+      {{- if not .Values.existingDataVolume }}
       - name: "data"
         emptyDir: {}
-{{- end}}
-{{- if .Values.tls.existingCASecretName }}
+      {{- end }}
+      {{- if .Values.tls.existingCASecretName }}
       - name: "teleport-tls-ca"
         secret:
           secretName: {{ .Values.tls.existingCASecretName }}
-{{- end }}
-#{{- if contains "jamf" (.Values.roles | toString) }}
-#      - name: "jamf-api-credentials"
-#        secret:
-#          secretName: {{ .Values.jamfCredentialsSecret.name }}
-#{{- end }}
+      {{- end }}
+      # {{- if contains "jamf" (.Values.roles | toString) }}
+      # - name: "jamf-api-credentials"
+      #   secret:
+      #     secretName: {{ .Values.jamfCredentialsSecret.name }}
+      # {{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 6 }}
 {{- end }}
-{{- if and .Values.storage.enabled }}
-  volumeClaimTemplates:
-  - metadata:
-      name: "{{ .Release.Name }}-teleport-data"
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ .Values.storage.storageClassName }}
-      resources:
-        requests:
-          storage: {{ .Values.storage.requests }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+{{- end }}
+      serviceAccountName: {{ template "teleport-kube-agent.serviceAccountName" . }}
 {{- end }}

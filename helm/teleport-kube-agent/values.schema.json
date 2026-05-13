@@ -1,854 +1,721 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
-    "required": [
-        "global",
-        "proxyAddr",
-        "roles",
-        "joinParams",
-        "kubeClusterName",
-        "apps",
-        "appResources",
-        "awsDatabases",
-        "azureDatabases",
-        "databases",
-        "databaseResources",
-        "teleportVersionOverride",
-        "insecureSkipProxyTLSVerify",
-        "teleportConfig",
-        "updater",
-        "existingDataVolume",
-        "podSecurityPolicy",
-        "labels",
-        "image",
-        "clusterRoleName",
-        "clusterRoleBindingName",
-        "roleName",
-        "roleBindingName",
-        "podMonitor",
-        "serviceAccountName",
-        "secretName",
-        "log",
-        "affinity",
-        "annotations",
-        "extraContainers",
-        "extraVolumes",
-        "extraVolumeMounts",
-        "imagePullPolicy",
-        "initContainers",
-        "resources",
-        "tolerations",
-        "probeTimeoutSeconds",
-        "proxy",
-        "cluster"
-    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
         "global": {
-            "$id": "#/properties/global",
-            "type": "object",
-            "required": [
-                "podSecurityStandards"
-            ],
             "properties": {
-                "podSecurityStandards": {
-                    "$id": "#/properties/global/properties/podSecurityStandards",
-                    "type": "object",
-                    "required": [
-                        "enforced"
-                    ],
+                "image": {
                     "properties": {
-                        "enforced": {
-                            "$id": "#/properties/global/properties/podSecurityStandards/properties/enforced",
-                            "type": "boolean",
-                            "default": false
+                        "registry": {
+                            "type": "string"
                         }
-                    }
-                }
-            }
-        },
-        "authToken": {
-            "$id": "#/properties/authToken",
-            "type": "string",
-            "default": ""
-        },
-        "proxyAddr": {
-            "$id": "#/properties/proxyAddr",
-            "type": "string",
-            "default": ""
-        },
-        "roles": {
-            "$id": "#/properties/roles",
-            "type": "string",
-            "default": "kube"
-        },
-        "joinParams": {
-            "$id": "#/properties/joinParams",
-            "type": "object",
-            "required": ["method"],
-            "properties": {
-                "tokenName": {
-                    "$id": "#/properties/joinParams/tokenName",
-                    "type": "string",
-                    "default": ""
-                },
-                "method": {
-                    "$id": "#/properties/joinParams/method",
-                    "type": "string",
-                    "default": "token"
-                },
-                "additionalProperties": false
-            }
-        },
-        "kubeClusterName": {
-            "$id": "#/properties/kubeClusterName",
-            "type": "string",
-            "default": ""
-        },
-        "apps": {
-            "$id": "#/properties/apps",
-            "type": "array",
-            "default": [],
-            "required": [
-                "name",
-                "uri"
-            ],
-            "properties": {
-                "name": {
-                    "$id": "#/properties/apps/name",
-                    "type": "string",
-                    "default": ""
-                },
-                "uri": {
-                    "$id": "#/properties/apps/uri",
-                    "type": "string",
-                    "default": ""
-                },
-                "additionalProperties": true
-            }
-        },
-        "appResources": {
-            "$id": "#/properties/appResources",
-            "type": "array",
-            "default": [],
-            "required": [
-                "labels"
-            ],
-            "properties": {
-                "labels": {
-                    "$id": "#/properties/appResources/labels",
+                    },
                     "type": "object"
                 },
-                "additionalProperties": false
-            }
+                "podSecurityStandards": {
+                    "properties": {
+                        "enforced": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
         },
-        "awsDatabases": {
-            "$id": "#/properties/awsDatabases",
-            "type": "array",
-            "default": [],
-            "required": [
-                "types",
-                "regions",
-                "tags"
-            ],
+        "teleport-kube-agent": {
             "properties": {
-                "types": {
-                    "$id": "#/properties/awsDatabases/types",
-                    "type": "array",
-                    "default": []
+                "adminClusterRoleBinding": {
+                    "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
-                "regions": {
-                    "$id": "#/properties/awsDatabases/regions",
-                    "type": "string",
-                    "default": []
+                "affinity": {
+                    "properties": {
+                        "nodeAffinity": {
+                            "properties": {
+                                "preferredDuringSchedulingIgnoredDuringExecution": {
+                                    "items": {
+                                        "properties": {
+                                            "preference": {
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "items": {
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "weight": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "podAntiAffinity": {
+                            "properties": {
+                                "preferredDuringSchedulingIgnoredDuringExecution": {
+                                    "items": {
+                                        "properties": {
+                                            "podAffinityTerm": {
+                                                "properties": {
+                                                    "labelSelector": {
+                                                        "properties": {
+                                                            "matchLabels": {
+                                                                "properties": {
+                                                                    "app": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "topologyKey": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "weight": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
                 },
-                "tags": {
-                    "$id": "#/properties/awsDatabases/tags",
-                    "type": "string",
-                    "default": []
+                "annotations": {
+                    "properties": {
+                        "config": {
+                            "type": "object"
+                        },
+                        "deployment": {
+                            "type": "object"
+                        },
+                        "pod": {
+                            "type": "object"
+                        },
+                        "secret": {
+                            "type": "object"
+                        },
+                        "service": {
+                            "type": "object"
+                        },
+                        "serviceAccount": {
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
                 },
-                "additionalProperties": false
-            }
-        },
-        "azureDatabases": {
-            "$id": "#/properties/azureDatabases",
-            "type": "array",
-            "default": [],
-            "items": {
-                "type": "object",
-                "default": {},
-                "required": [
-                    "types",
-                    "tags"
-                ],
-                "properties": {
-                    "types": {
-                        "$id": "#/properties/azureDatabases/types",
-                        "type": "array",
-                        "items": {
+                "appResources": {
+                    "type": "array"
+                },
+                "apps": {
+                    "type": "array"
+                },
+                "authToken": {
+                    "type": "string"
+                },
+                "awsDatabases": {
+                    "type": "array"
+                },
+                "azureDatabases": {
+                    "type": "array"
+                },
+                "caPin": {
+                    "type": "array"
+                },
+                "cluster": {
+                    "properties": {
+                        "proxy": {
+                            "properties": {
+                                "http": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "https": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "noProxy": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "clusterDomain": {
+                    "type": "string"
+                },
+                "clusterRoleBindingName": {
+                    "type": "string"
+                },
+                "clusterRoleName": {
+                    "type": "string"
+                },
+                "databaseResources": {
+                    "type": "array"
+                },
+                "databases": {
+                    "type": "array"
+                },
+                "dnsConfig": {
+                    "type": "object"
+                },
+                "dnsPolicy": {
+                    "type": "string"
+                },
+                "enterprise": {
+                    "type": "boolean"
+                },
+                "enterpriseImage": {
+                    "type": "string"
+                },
+                "existingDataVolume": {
+                    "type": "string"
+                },
+                "extraArgs": {
+                    "type": "array"
+                },
+                "extraContainers": {
+                    "type": "array"
+                },
+                "extraEnv": {
+                    "type": "array"
+                },
+                "extraLabels": {
+                    "properties": {
+                        "clusterRole": {
+                            "type": "object"
+                        },
+                        "clusterRoleBinding": {
+                            "type": "object"
+                        },
+                        "config": {
+                            "type": "object"
+                        },
+                        "deployment": {
+                            "type": "object"
+                        },
+                        "job": {
+                            "type": "object"
+                        },
+                        "pod": {
+                            "type": "object"
+                        },
+                        "podDisruptionBudget": {
+                            "type": "object"
+                        },
+                        "podSecurityPolicy": {
+                            "type": "object"
+                        },
+                        "role": {
+                            "type": "object"
+                        },
+                        "roleBinding": {
+                            "type": "object"
+                        },
+                        "secret": {
+                            "type": "object"
+                        },
+                        "service": {
+                            "type": "object"
+                        },
+                        "serviceAccount": {
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "extraVolumeMounts": {
+                    "type": "array"
+                },
+                "extraVolumes": {
+                    "type": "array"
+                },
+                "highAvailability": {
+                    "properties": {
+                        "podDisruptionBudget": {
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "minAvailable": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "replicaCount": {
+                            "type": "integer"
+                        },
+                        "requireAntiAffinity": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                },
+                "hostAliases": {
+                    "type": "array"
+                },
+                "image": {
+                    "properties": {
+                        "registry": {
                             "type": "string"
                         },
-                        "default": []
+                        "repository": {
+                            "type": "string"
+                        }
                     },
-                    "tags": {
-                        "$id": "#/properties/azureDatabases/tags",
-                        "type": "object",
-                        "default": {},
-                        "additionalProperties": {
-                            "oneOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
+                    "type": "object"
+                },
+                "imagePullPolicy": {
+                    "type": "string"
+                },
+                "imagePullSecrets": {
+                    "type": "array"
+                },
+                "initContainers": {
+                    "type": "array"
+                },
+                "initSecurityContext": {
+                    "properties": {
+                        "allowPrivilegeEscalation": {
+                            "type": "boolean"
+                        },
+                        "capabilities": {
+                            "properties": {
+                                "drop": {
                                     "items": {
                                         "type": "string"
-                                    }
+                                    },
+                                    "type": "array"
                                 }
+                            },
+                            "type": "object"
+                        },
+                        "readOnlyRootFilesystem": {
+                            "type": "boolean"
+                        },
+                        "runAsNonRoot": {
+                            "type": "boolean"
+                        },
+                        "runAsUser": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "insecureSkipProxyTLSVerify": {
+                    "type": "boolean"
+                },
+                "jamfApiEndpoint": {
+                    "type": "string"
+                },
+                "jamfClientId": {
+                    "type": "string"
+                },
+                "jamfClientSecret": {
+                    "type": "string"
+                },
+                "jamfCredentialsSecret": {
+                    "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "joinParams": {
+                    "properties": {
+                        "method": {
+                            "type": "string"
+                        },
+                        "tokenName": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "joinTokenSecret": {
+                    "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "kubeClusterName": {
+                    "type": "string"
+                },
+                "kubernetesDiscovery": {
+                    "items": {
+                        "properties": {
+                            "labels": {
+                                "properties": {
+                                    "*": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "namespaces": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            "types": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "labels": {
+                    "type": "object"
+                },
+                "log": {
+                    "properties": {
+                        "extraFields": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "format": {
+                            "type": "string"
+                        },
+                        "level": {
+                            "type": "string"
+                        },
+                        "output": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "nodeSelector": {
+                    "type": "object"
+                },
+                "podMonitor": {
+                    "properties": {
+                        "additionalLabels": {
+                            "properties": {
+                                "application.giantswarm.io/team": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "interval": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "podSecurityContext": {
+                    "properties": {
+                        "fsGroup": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "podSecurityPolicy": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                },
+                "priorityClassName": {
+                    "type": "string"
+                },
+                "probeTimeoutSeconds": {
+                    "type": "integer"
+                },
+                "proxy": {
+                    "properties": {
+                        "http": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "https": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "noProxy": {
+                            "type": [
+                                "string",
+                                "null"
                             ]
                         }
                     },
-                    "subscriptions": {
-                        "$id": "#/properties/azureDatabases/subscriptions",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": []
-                    },
-                    "regions": {
-                        "$id": "#/properties/azureDatabases/regions",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": []
-                    },
-                    "resource_groups": {
-                        "$id": "#/properties/azureDatabases/resource_groups",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": []
-                    },
-                    "additionalProperties": false
-                }
-            }
-        },
-        "databases": {
-            "$id": "#/properties/databases",
-            "type": "array",
-            "default": []
-        },
-        "databaseResources": {
-            "$id": "#/properties/databaseResources",
-            "type": "array",
-            "default": [],
-            "required": [
-                "labels"
-            ],
-            "properties": {
-                "labels": {
-                    "$id": "#/properties/databaseResources/labels",
                     "type": "object"
                 },
-                "additionalProperties": false
-            }
-        },
-        "teleportVersionOverride": {
-            "$id": "#/properties/teleportVersionOverride",
-            "type": "string",
-            "default": ""
-        },
-        "caPin": {
-            "$id": "#/properties/caPin",
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "default": []
-        },
-        "insecureSkipProxyTLSVerify": {
-            "$id": "#/properties/insecureSkipProxyTLSVerify",
-            "type": "boolean",
-            "default": false
-        },
-        "teleportConfig": {
-            "$id": "#/properties/teleportConfig",
-            "type": "object",
-            "default": {}
-        },
-        "tls": {
-            "$id": "#/properties/tls",
-            "type": "object",
-            "required": [
-                "existingCASecretName"
-            ],
-            "properties": {
-                "existingCASecretName": {
-                    "$id": "#/properties/tls/properties/existingCASecretName",
-                    "type": "string",
-                    "default": ""
-                }
-            }
-        },
-        "updater": {
-            "$id": "#/properties/updater",
-            "type": "object",
-            "required": [
-                "enabled"
-            ],
-            "properties": {
-                "enabled": {
-                    "$id": "#/properties/updater/properties/enabled",
-                    "type": "boolean",
-                    "default": false
+                "proxyAddr": {
+                    "type": "string"
                 },
-                "versionServer": {
-                    "$id": "#/properties/updater/properties/versionServer",
-                    "type": "string",
-                    "default": "https://updates.releases.teleport.dev/v1/"
+                "rbac": {
+                    "properties": {
+                        "create": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
                 },
-                "releaseChannel": {
-                    "$id": "#/properties/updater/properties/releaseChannel",
-                    "type": "string",
-                    "default": "stable/cloud"
+                "resources": {
+                    "properties": {
+                        "limits": {
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "requests": {
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
                 },
-                "image": {
-                    "$id": "#/properties/updater/properties/image",
-                    "type": "string",
-                    "default": "public.ecr.aws/gravitational/teleport-kube-agent-updater"
+                "roleBindingName": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "string"
+                },
+                "secretName": {
+                    "type": "string"
+                },
+                "securityContext": {
+                    "properties": {
+                        "allowPrivilegeEscalation": {
+                            "type": "boolean"
+                        },
+                        "capabilities": {
+                            "properties": {
+                                "drop": {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "readOnlyRootFilesystem": {
+                            "type": "boolean"
+                        },
+                        "runAsNonRoot": {
+                            "type": "boolean"
+                        },
+                        "runAsUser": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
                 },
                 "serviceAccount": {
-                    "$id": "#/properties/updater/properties/serviceAccount",
-                    "type": "object",
                     "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
                         "name": {
-                            "$id": "#/properties/updater/properties/serviceAccount/properties/name",
-                            "type": "string",
-                            "default": ""
+                            "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
-                "pullCredentials": {
-                    "$id": "#/properties/updater/properties/pullCredentials",
-                    "type": "string",
-                    "default": ""
+                "serviceAccountName": {
+                    "type": "string"
                 },
-                "extraArgs": {
-                    "$id": "#/properties/updater/properties/extraArgs",
-                    "type": "array",
-                    "default": []
-                }
-            }
-        },
-        "existingDataVolume": {
-            "$id": "#/properties/existingDataVolume",
-            "type": "string",
-            "default": ""
-        },
-        "podSecurityPolicy": {
-            "$id": "#/properties/podSecurityPolicy",
-            "type": "object",
-            "required": [
-                "enabled"
-            ],
-            "properties": {
-                "enabled": {
-                    "$id": "#/properties/podSecurityPolicy/properties/enabled",
-                    "type": "boolean",
-                    "default": true
-                }
-            }
-        },
-        "labels": {
-            "$id": "#/properties/labels",
-            "type": "object",
-            "default": {}
-        },
-        "image": {
-            "$id": "#/properties/image",
-            "type": "object",
-            "properties": {
-                "registry": {
-                    "$id": "#/properties/image/registry",
-                    "type": "string",
-                    "default": "public.ecr.aws"
-                },
-                "repository": {
-                    "$id": "#/properties/image/repository",
-                    "type": "string",
-                    "default": "gravitational/teleport-distroless"
-                }
-            }
-        },
-        "enterpriseImage": {
-            "$id": "#/properties/enterpriseImage",
-            "type": "string",
-            "default": "public.ecr.aws/gravitational/teleport-ent-distroless"
-        },
-        "imagePullSecrets": {
-            "$id": "#/properties/imagePullSecrets",
-            "type": "array",
-            "default": []
-        },
-        "replicaCount": {
-            "$id": "#/properties/replicaCount",
-            "type": "integer",
-            "default": 2
-        },
-        "clusterRoleName": {
-            "$id": "#/properties/clusterRoleName",
-            "type": "string",
-            "default": ""
-        },
-        "clusterRoleBindingName": {
-            "$id": "#/properties/clusterRoleBindingName",
-            "type": "string",
-            "default": ""
-        },
-        "roleName": {
-            "$id": "#/properties/roleName",
-            "type": "string",
-            "default": ""
-        },
-        "roleBindingName": {
-            "$id": "#/properties/roleBindingName",
-            "type": "string",
-            "default": ""
-        },
-        "highAvailability": {
-            "$id": "#/properties/highAvailability",
-            "type": "object",
-            "required": [
-                "podDisruptionBudget",
-                "replicaCount",
-                "requireAntiAffinity"
-            ],
-            "properties": {
-                "podDisruptionBudget": {
-                    "$id": "#/properties/highAvailability/properties/podDisruptionBudget",
-                    "type": "object",
-                    "required": [
-                        "enabled",
-                        "minAvailable"
-                    ],
+                "storage": {
                     "properties": {
                         "enabled": {
-                            "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/enabled",
-                            "type": "boolean",
-                            "default": true
+                            "type": "boolean"
                         },
-                        "minAvailable": {
-                            "$id": "#/properties/highAvailability/properties/podDisruptionBudget/properties/minAvailable",
-                            "type": "integer",
-                            "default": 1
+                        "requests": {
+                            "type": "string"
+                        },
+                        "storageClassName": {
+                            "type": "string"
                         }
-                    }
-                },
-                "replicaCount": {
-                    "$id": "#/properties/highAvailability/properties/replicaCount",
-                    "type": "integer",
-                    "default": 1
-                },
-                "requireAntiAffinity": {
-                    "$id": "#/properties/highAvailability/properties/requireAntiAffinity",
-                    "type": "boolean",
-                    "default": false
-                }
-            }
-        },
-        "podMonitor": {
-            "$id": "#/properties/podMonitor",
-            "type": "object",
-            "required": ["enabled"],
-            "properties": {
-                "enabled": {
-                    "$id": "#/properties/podMonitor/enabled",
-                    "type": "boolean",
-                    "default": false
-                },
-                "additionalLabels": {
-                    "$id": "#/properties/podMonitor/additionalLabels",
-                    "type": "object",
-                    "default": {"prometheus": "default"},
-                    "additionalProperties": {"type": "string"}
-                },
-                "interval": {
-                    "$id": "#/properties/podMonitor/interval",
-                    "type": "string",
-                    "default": "30s"
-                }
-            }
-        },
-        "initSecurityContext": {
-            "$id": "#/properties/initSecurityContext",
-            "type": "object"
-        },
-        "securityContext": {
-            "$id": "#/properties/podSecurityContext",
-            "type": "object"
-        },
-        "podSecurityContext": {
-            "$id": "#/properties/securityContext",
-            "type": "object"
-        },
-        "priorityClassName": {
-            "$id": "#/properties/priorityClassName",
-            "type": "string",
-            "default": ""
-        },
-        "serviceAccountName": {
-            "$id": "#/properties/serviceAccountName",
-            "type": "string",
-            "default": ""
-        },
-        "secretName": {
-            "$id": "#/properties/secretName",
-            "type": "string",
-            "default": "teleport-kube-agent-join-token"
-        },
-        "log": {
-            "$id": "#/properties/log",
-            "type": "object",
-            "required": [
-                "output",
-                "format",
-                "extraFields"
-            ],
-            "properties": {
-                "level": {
-                    "$id": "#/properties/log/properties/level",
-                    "type": "string",
-                    "enum": [
-                        "DEBUG",
-                        "INFO",
-                        "WARN",
-                        "WARNING",
-                        "ERROR"
-                    ],
-                    "default": "INFO"
-                },
-                "deployment": {
-                    "$id": "#/properties/log/properties/output",
-                    "type": "string",
-                    "default": {}
-                },
-                "pod": {
-                    "$id": "#/properties/log/properties/format",
-                    "type": "string",
-                    "default": {}
-                },
-                "service": {
-                    "$id": "#/properties/log/properties/extraFields",
-                    "type": "array",
-                    "default": {}
-                }
-            }
-        },
-        "affinity": {
-            "$id": "#/properties/affinity",
-            "type": "object",
-            "default": {}
-        },
-        "dnsConfig": {
-            "$id": "#/properties/dnsConfig",
-            "type": "object",
-            "default": {}
-        },
-        "dnsPolicy": {
-            "$id": "#/properties/dnsPolicy",
-            "type": "string",
-            "default": ""
-        },
-        "extraLabels": {
-            "$id": "#/properties/extraLabels",
-            "type": "object",
-            "properties": {
-                "clusterRole": {
-                    "$id": "#/properties/extraLabels/properties/clusterRole",
-                    "type": "object",
-                    "default": {}
-                },
-                "clusterRoleBinding": {
-                    "$id": "#/properties/extraLabels/properties/clusterRoleBinding",
-                    "type": "object",
-                    "default": {}
-                },
-                "role": {
-                    "$id": "#/properties/extraLabels/properties/role",
-                    "type": "object",
-                    "default": {}
-                },
-                "roleBinding": {
-                    "$id": "#/properties/extraLabels/properties/roleBinding",
-                    "type": "object",
-                    "default": {}
-                },
-                "config": {
-                    "$id": "#/properties/extraLabels/properties/config",
-                    "type": "object",
-                    "default": {}
-                },
-                "deployment": {
-                    "$id": "#/properties/extraLabels/properties/deployment",
-                    "type": "object",
-                    "default": {}
-                },
-                "job": {
-                    "$id": "#/properties/extraLabels/properties/job",
-                    "type": "object",
-                    "default": {}
-                },
-                "pod": {
-                    "$id": "#/properties/extraLabels/properties/pod",
-                    "type": "object",
-                    "default": {}
-                },
-                "podDisruptionBudget": {
-                    "$id": "#/properties/extraLabels/properties/podDisruptionBudget",
-                    "type": "object",
-                    "default": {}
-                },
-                "podSecurityPolicy": {
-                    "$id": "#/properties/extraLabels/properties/podSecurityPolicy",
-                    "type": "object",
-                    "default": {}
-                },
-                "secret": {
-                    "$id": "#/properties/extraLabels/properties/secret",
-                    "type": "object",
-                    "default": {}
-                },
-                "serviceAccount": {
-                    "$id": "#/properties/extraLabels/properties/serviceAccount",
-                    "type": "object",
-                    "default": {}
-                }
-            }
-        },
-        "annotations": {
-            "$id": "#/properties/annotations",
-            "type": "object",
-            "required": [
-                "config",
-                "deployment",
-                "pod",
-                "secret",
-                "serviceAccount"
-            ],
-            "properties": {
-                "config": {
-                    "$id": "#/properties/annotations/properties/config",
-                    "type": "object",
-                    "default": {}
-                },
-                "deployment": {
-                    "$id": "#/properties/annotations/properties/deployment",
-                    "type": "object",
-                    "default": {}
-                },
-                "pod": {
-                    "$id": "#/properties/annotations/properties/pod",
-                    "type": "object",
-                    "default": {}
-                },
-                "secret": {
-                    "$id": "#/properties/annotations/properties/secret",
-                    "type": "object",
-                    "default": {}
-                },
-                "serviceAccount": {
-                    "$id": "#/properties/annotations/properties/serviceAccount",
-                    "type": "object",
-                    "default": {}
-                }
-            }
-        },
-        "serviceAccount": {
-            "$id": "#/properties/serviceAccount",
-            "type": "object",
-            "required": [],
-            "properties": {
-                "name": {
-                    "$id": "#properties/serviceAccount/name",
-                    "type": "string",
-                    "default": ""
-                },
-                "create": {
-                    "$id": "#properties/serviceAccount/create",
-                    "type": "boolean",
-                    "default": true
-                }
-            }
-        },
-        "rbac": {
-            "$id": "#/properties/rbac",
-            "type": "object",
-            "required": [],
-            "properties": {
-                "create": {
-                    "$id": "#properties/rbac/create",
-                    "type": "boolean",
-                    "default": true
-                }
-            }
-        },
-        "extraArgs": {
-            "$id": "#/properties/extraArgs",
-            "type": "array",
-            "default": []
-        },
-        "extraEnv": {
-            "$id": "#/properties/extraEnv",
-            "type": "array",
-            "default": []
-        },
-        "extraContainers": {
-            "$id": "#/properties/extraContainers",
-            "type": "array",
-            "default": []
-        },
-        "extraVolumes": {
-            "$id": "#/properties/extraVolumes",
-            "type": "array",
-            "default": []
-        },
-        "extraVolumeMounts": {
-            "$id": "#/properties/extraVolumeMounts",
-            "type": "array",
-            "default": []
-        },
-        "hostAliases": {
-            "$id": "#/properties/hostAliases",
-            "type": "array",
-            "default": []
-        },
-        "imagePullPolicy": {
-            "$id": "#/properties/imagePullPolicy",
-            "type": "string",
-            "enum": [
-                "Never",
-                "IfNotPresent",
-                "Always"
-            ],
-            "default": "IfNotPresent"
-        },
-        "initContainers": {
-            "$id": "#/properties/initContainers",
-            "type": "array",
-            "default": []
-        },
-        "resources": {
-            "$id": "#/properties/resources",
-            "type": "object",
-            "default": {}
-        },
-        "tolerations": {
-            "$id": "#/properties/tolerations",
-            "type": "array",
-            "default": []
-        },
-        "probeTimeoutSeconds": {
-            "$id": "#/properties/probeTimeoutSeconds",
-            "type": "integer",
-            "default": 1
-        },
-        "kubernetesDiscovery": {
-            "$id": "#/properties/kubernetesDiscovery",
-            "type": "array",
-            "default": [],
-            "properties": {
-                "types": {
-                    "$id": "#/properties/kubernetesDiscovery/types",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     },
-                    "default": []
-                },
-                "namespaces": {
-                    "$id": "#/properties/kubernetesDiscovery/namespaces",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": []
-                },
-                "labels": {
-                    "$id": "#/properties/kubernetesDiscovery/labels",
                     "type": "object"
                 },
-                "additionalProperties": false
-            }
-        },
-        "jamfCredentialsSecret": {
-            "$id": "#/properties/jamfCredentialsSecret",
-            "type": "object",
-            "required": ["create", "name"],
-            "properties": {
-                "create": {
-                    "$id": "#/properties/jamfCredentialsSecret/create",
-                    "type": "boolean",
-                    "default": false
+                "teleportConfig": {
+                    "type": "object"
                 },
-                "name": {
-                    "$id": "#/properties/jamfCredentialsSecret/name",
-                    "type": "string",
-                    "default": "teleport-jamf-api-credentials"
+                "teleportVersionOverride": {
+                    "type": "string"
                 },
-                "additionalProperties": false
-            }
-        },
-        "jamfApiEndpoint": {
-            "$id": "#/properties/jamfApiEndpoint",
-            "type": "string",
-            "default": ""
-        },
-        "jamfClientId": {
-            "$id": "#/properties/jamfClientId",
-            "type": "string",
-            "default": ""
-        },
-        "jamfClientSecret": {
-            "$id": "#/properties/jamfSecret",
-            "type": "string",
-            "default": ""
-        },
-        "proxy": {
-            "$id": "#/properties/proxy",
-            "type": "object",
-            "properties": {
-                "http": {
-                    "type": ["null", "string"]
-                },
-                "https": {
-                    "type": ["null", "string"]
-                },
-                "noProxy": {
-                    "type": ["null", "string"]
-                }
-            }
-        },
-        "cluster": {
-            "$id": "#/properties/cluster",
-            "type": "object",
-            "properties": {
-                "proxy": {
-                    "type": "object",
+                "tls": {
                     "properties": {
-                        "http": {
-                            "type": ["null", "string"]
-                        },
-                        "https": {
-                            "type": ["null", "string"]
-                        },
-                        "noProxy": {
-                            "type": ["null", "string"]
+                        "existingCASecretName": {
+                            "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
+                },
+                "tolerations": {
+                    "items": {
+                        "properties": {
+                            "effect": {
+                                "type": "string"
+                            },
+                            "key": {
+                                "type": "string"
+                            },
+                            "operator": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "updater": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "extraArgs": {
+                            "type": "array"
+                        },
+                        "extraVolumeMounts": {
+                            "type": "array"
+                        },
+                        "extraVolumes": {
+                            "type": "array"
+                        },
+                        "image": {
+                            "type": "string"
+                        },
+                        "pullCredentials": {
+                            "type": "string"
+                        },
+                        "releaseChannel": {
+                            "type": "string"
+                        },
+                        "serviceAccount": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "versionServer": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 }
-            }           
+            },
+            "type": "object"
         }
-    }
+    },
+    "type": "object"
 }
