@@ -1,9 +1,9 @@
 apiVersion: vendir.k14s.io/v1alpha1
 kind: Config
 directories:
-- path: helm
+- path: helm/teleport-kube-agent/charts/teleport-kube-agent
   contents:
-  - path: teleport-kube-agent
+  - path: .
     helmChart:
       name: "teleport-kube-agent"
       # renovate: datasource=helm depName=teleport-kube-agent registryUrl=https://charts.releases.teleport.dev
