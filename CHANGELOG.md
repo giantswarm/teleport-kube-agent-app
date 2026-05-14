@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated `teleport-kube-agent` to upstream version `v18.8.0`.
+- Updated `teleport-kube-agent` to upstream version `v18.7.6`.
 
 ## [0.10.8] - 2026-02-19
 
@@ -67,6 +67,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change ownership to Team Shield
 
 ## [0.10.1] - 2024-09-04
+
+### Fixed
+
+- Added small fix on `podSecurityContext` for `seccompProfile`.
 
 ## [0.10.0] - 2024-08-21
 
@@ -146,6 +150,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Sync with upstream chart
+
+### Fixed
+
+- Update Chart.yaml to [fix this](https://app.circleci.com/pipelines/github/giantswarm/teleport-kube-agent-app/1/workflows/e58da8df-838e-4118-9411-522ed1dec2ec/jobs/1)
 
 ## [0.1.0] - 2023-06-28
 
