@@ -153,34 +153,6 @@
                 "caPin": {
                     "type": "array"
                 },
-                "cluster": {
-                    "properties": {
-                        "proxy": {
-                            "properties": {
-                                "http": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
-                                },
-                                "https": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
-                                },
-                                "noProxy": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                },
                 "clusterDomain": {
                     "type": "string"
                 },
@@ -501,29 +473,6 @@
                 },
                 "probeTimeoutSeconds": {
                     "type": "integer"
-                },
-                "proxy": {
-                    "properties": {
-                        "http": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
-                        },
-                        "https": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
-                        },
-                        "noProxy": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
-                        }
-                    },
-                    "type": "object"
                 },
                 "proxyAddr": {
                     "type": "string"
