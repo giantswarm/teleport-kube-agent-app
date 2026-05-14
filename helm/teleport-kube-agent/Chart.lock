@@ -1,6 +1,6 @@
 dependencies:
 - name: teleport-kube-agent
   repository: ""
-  version: 17.5.4
-digest: sha256:3db2ee2659b2136a09a66583a976b8a10f0133733edae42c71de793ebaca5e8e
-generated: "2026-04-29T20:06:13.207952-03:00"
+  version: 18.8.0
+digest: sha256:b2dc9ebcf3333219168014e7eb10cffc51e7c7e9f79011276d14e393c2b8d9ff
+generated: "2026-05-14T12:13:17.476053844Z"
