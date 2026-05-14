@@ -364,8 +364,15 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "string",
-            "default": "public.ecr.aws/gravitational/teleport-distroless"
+            "type": "object",
+            "properties": {
+                "registry": {
+                    "type": "string"
+                },
+                "repository": {
+                    "type": "string"
+                }
+            }
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
