@@ -1,0 +1,17 @@
+diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/_helpers.tpl b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/_helpers.tpl
+index 3e00e27..e8cc220 100644
+--- a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/_helpers.tpl
++++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/_helpers.tpl
+@@ -48,3 +48,12 @@ if serviceAccount is not defined or serviceAccount.name is empty, use .Release.N
+ {{- define "teleport-kube-agent.image" -}}
+ {{ include "teleport-kube-agent.baseImage" . }}:{{ include "teleport-kube-agent.version" . }}
+ {{- end -}}
++
++{{/* GS Custom image registry support */}}
++{{- define "registry" }}
++{{- $registry := .Values.image.registry -}}
++{{- if and .Values.global (and .Values.global.image .Values.global.image.registry) -}}
++{{- $registry = .Values.global.image.registry -}}
++{{- end -}}
++{{- printf "%s" $registry -}}
++{{- end -}}

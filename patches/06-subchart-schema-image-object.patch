@@ -1,0 +1,22 @@
+diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json b/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
+index 193a5b8..8ad7e94 100644
+--- a/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
++++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
+@@ -364,8 +364,15 @@
+         },
+         "image": {
+             "$id": "#/properties/image",
+-            "type": "string",
+-            "default": "public.ecr.aws/gravitational/teleport-distroless"
++            "type": "object",
++            "properties": {
++                "registry": {
++                    "type": "string"
++                },
++                "repository": {
++                    "type": "string"
++                }
++            }
+         },
+         "enterpriseImage": {
+             "$id": "#/properties/enterpriseImage",

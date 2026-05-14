@@ -1,0 +1,13 @@
+diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml
+index d74eeeb..29c4ec1 100644
+--- a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml
++++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml
+@@ -89,7 +89,7 @@ spec:
+ {{- end }}
+       containers:
+       - name: post-install-job
+-        image: alpine/k8s:1.26.0
++        image: alpine/k8s:1.33.3
+         command:
+         - sh
+         - "-c"

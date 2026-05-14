@@ -1,0 +1,65 @@
+diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml
+index 1814282..7f8d14f 100644
+--- a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml
++++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml
+@@ -114,11 +114,11 @@ spec:
+           name: "teleport-tls-ca"
+           readOnly: true
+           {{- end }}
+-          {{- if contains "jamf" (.Values.roles | toString) }}
+-        - mountPath: /etc/teleport-jamf-api-credentials
+-          name: "jamf-api-credentials"
+-          readOnly: true
+-          {{- end }}
++        #   {{- if contains "jamf" (.Values.roles | toString) }}
++        # - mountPath: /etc/teleport-jamf-api-credentials
++        #   name: "jamf-api-credentials"
++        #   readOnly: true
++        #   {{- end }}
+   {{- if .Values.extraVolumeMounts }}
+     {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+   {{- end }}
+@@ -129,7 +129,8 @@ spec:
+       {{- end }}
+       containers:
+       - name: "teleport"
+-        image: {{ include "teleport-kube-agent.image" . | quote }}
++        # GS custom registry support
++        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+         {{- if .Values.imagePullPolicy }}
+         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
+         {{- end }}
+@@ -204,11 +205,11 @@ spec:
+           name: "teleport-tls-ca"
+           readOnly: true
+           {{- end }}
+-          {{- if contains "jamf" (.Values.roles | toString) }}
+-        - mountPath: /etc/teleport-jamf-api-credentials
+-          name: "jamf-api-credentials"
+-          readOnly: true
+-          {{- end }}
++        #   {{- if contains "jamf" (.Values.roles | toString) }}
++        # - mountPath: /etc/teleport-jamf-api-credentials
++        #   name: "jamf-api-credentials"
++        #   readOnly: true
++        #   {{- end }}
+ {{- if .Values.extraVolumeMounts }}
+   {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+ {{- end }}
+@@ -231,11 +232,11 @@ spec:
+         secret:
+           secretName: {{ .Values.tls.existingCASecretName }}
+       {{- end }}
+-      {{- if contains "jamf" (.Values.roles | toString) }}
+-      - name: "jamf-api-credentials"
+-        secret:
+-          secretName: {{ .Values.jamfCredentialsSecret.name }}
+-      {{- end }}
++      # {{- if contains "jamf" (.Values.roles | toString) }}
++      # - name: "jamf-api-credentials"
++      #   secret:
++      #     secretName: {{ .Values.jamfCredentialsSecret.name }}
++      # {{- end }}
+ {{- if .Values.extraVolumes }}
+   {{- toYaml .Values.extraVolumes | nindent 6 }}
+ {{- end }}
