@@ -153,28 +153,11 @@ spec:
       {{- end }}
       containers:
       - name: "teleport"
-        # GS custom registry support
-        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+        image: {{ include "teleport-kube-agent.image" . | quote }}
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
         env:
-          # GS custom values for proxy settings
-          {{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
-          {{- if and $proxy.noProxy $proxy.http $proxy.https }}
-          - name: NO_PROXY
-            value: {{ $proxy.noProxy }}
-          - name: no_proxy
-            value: {{ $proxy.noProxy }}
-          - name: HTTP_PROXY
-            value: {{ $proxy.http }}
-          - name: http_proxy
-            value: {{ $proxy.http }}
-          - name: HTTPS_PROXY
-            value: {{ $proxy.https }}
-          - name: https_proxy
-            value: {{ $proxy.https }}
-          {{- end }}
         {{- $gomemlimit := include "teleport-kube-agent.gomemlimit" . }}
         {{- if $gomemlimit }}
           - name: GOMEMLIMIT
