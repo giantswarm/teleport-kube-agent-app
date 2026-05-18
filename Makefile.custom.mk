@@ -15,7 +15,7 @@ regenerate-patches: ## Regenerate patches from current uncommitted changes to th
 	@echo "====> $@"
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/_helpers.tpl    > $(PATCH_DIR)/01-helpers-registry-template.patch
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/delete_hook.yaml > $(PATCH_DIR)/02-delete_hook-image-registry.patch
-	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml  > $(PATCH_DIR)/03-deployment-image-registry-and-jamf.patch
+	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/deployment.yaml  > $(PATCH_DIR)/03-deployment-image-registry.patch
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml        > $(PATCH_DIR)/04-hook-alpine-version.patch
-	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/statefulset.yaml > $(PATCH_DIR)/05-statefulset-image-proxy-jamf.patch
+	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/statefulset.yaml > $(PATCH_DIR)/05-statefulset-image-and-proxy.patch
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json        > $(PATCH_DIR)/06-subchart-schema-image-object.patch
