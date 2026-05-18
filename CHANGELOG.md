@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated `teleport-kube-agent` to upstream version `v18.7.6`.
+- Updated `teleport-kube-agent` to upstream version `v18.8.1`.
 
 ## [0.10.8] - 2026-02-19
 
