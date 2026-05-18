@@ -1,0 +1,14 @@
+diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/delete_hook.yaml b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/delete_hook.yaml
+index 720a8d9..060025d 100644
+--- a/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/delete_hook.yaml
++++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/templates/delete_hook.yaml
+@@ -110,7 +110,8 @@ spec:
+                 fieldPath: metadata.namespace
+           - name: RELEASE_NAME
+             value: {{ .Release.Name }}
+-        image: {{ include "teleport-kube-agent.image" . | quote }}
++        # GS custom registry support
++        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+         {{- if .Values.imagePullPolicy }}
+         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
+         {{- end }}
