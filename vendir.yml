@@ -7,7 +7,7 @@ directories:
     helmChart:
       name: "teleport-kube-agent"
       # renovate: datasource=helm depName=teleport-kube-agent registryUrl=https://charts.releases.teleport.dev
-      version: "18.8.1"
+      version: "18.8.2"
       repository:
         url: https://charts.releases.teleport.dev
     newRootPath: .
