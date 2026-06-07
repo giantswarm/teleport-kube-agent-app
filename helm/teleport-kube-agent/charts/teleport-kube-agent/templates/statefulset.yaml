@@ -158,23 +158,12 @@ spec:
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
+        # GS: proxy env vars injected via ConfigMap from the parent chart
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-proxy
+            optional: true
         env:
-          # GS custom values for proxy settings
-          {{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
-          {{- if and $proxy.noProxy $proxy.http $proxy.https }}
-          - name: NO_PROXY
-            value: {{ $proxy.noProxy }}
-          - name: no_proxy
-            value: {{ $proxy.noProxy }}
-          - name: HTTP_PROXY
-            value: {{ $proxy.http }}
-          - name: http_proxy
-            value: {{ $proxy.http }}
-          - name: HTTPS_PROXY
-            value: {{ $proxy.https }}
-          - name: https_proxy
-            value: {{ $proxy.https }}
-          {{- end }}
         {{- $gomemlimit := include "teleport-kube-agent.gomemlimit" . }}
         {{- if $gomemlimit }}
           - name: GOMEMLIMIT

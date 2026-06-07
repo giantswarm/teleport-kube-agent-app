@@ -2,6 +2,25 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
+        "cluster": {
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "object",
+                    "properties": {
+                        "http": {
+                            "type": "string"
+                        },
+                        "https": {
+                            "type": "string"
+                        },
+                        "noProxy": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "global": {
             "type": "object",
             "properties": {
@@ -20,6 +39,20 @@
                             "type": "boolean"
                         }
                     }
+                }
+            }
+        },
+        "proxy": {
+            "type": "object",
+            "properties": {
+                "http": {
+                    "type": "string"
+                },
+                "https": {
+                    "type": "string"
+                },
+                "noProxy": {
+                    "type": "string"
                 }
             }
         },
@@ -154,25 +187,6 @@
                 },
                 "caPin": {
                     "type": "array"
-                },
-                "cluster": {
-                    "type": "object",
-                    "properties": {
-                        "proxy": {
-                            "type": "object",
-                            "properties": {
-                                "http": {
-                                    "type": "null"
-                                },
-                                "https": {
-                                    "type": "null"
-                                },
-                                "noProxy": {
-                                    "type": "null"
-                                }
-                            }
-                        }
-                    }
                 },
                 "clusterDomain": {
                     "type": "string"
@@ -494,20 +508,6 @@
                 },
                 "probeTimeoutSeconds": {
                     "type": "integer"
-                },
-                "proxy": {
-                    "type": "object",
-                    "properties": {
-                        "http": {
-                            "type": "null"
-                        },
-                        "https": {
-                            "type": "null"
-                        },
-                        "noProxy": {
-                            "type": "null"
-                        }
-                    }
                 },
                 "proxyAddr": {
                     "type": "string"
