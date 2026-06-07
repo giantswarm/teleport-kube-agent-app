@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-06-07
+
 ### Changed
 
 - Values: Tolerate `node.cloudprovider.kubernetes.io/uninitialized`.
@@ -169,7 +171,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release of teleport-kube-agent-app
 
-[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.11.1...HEAD
+[0.11.1]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.8...v0.11.0
 [0.10.8]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.7...v0.10.8
 [0.10.7]: https://github.com/giantswarm/teleport-kube-agent-app/compare/v0.10.6...v0.10.7
