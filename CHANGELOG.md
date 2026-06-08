@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Values: Tolerate `node.cloudprovider.kubernetes.io/uninitialized`.
+- Values: Ignore taints regardless of value.
+
 ## [0.11.0] - 2026-05-18
 
 ### Changed

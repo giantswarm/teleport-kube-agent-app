@@ -1343,13 +1343,19 @@ teleport-kube-agent:
   # for more details.
   priorityClassName: ""
 
+  # Taints might come with a value and we do not want to define them here and rather make use of the `Exists` operator.
+  # The default value of the operator of a toleration would be `Equal`, so we would have to define the values.
+  # Since they can be subject to change and we do not care about them, we just ignore the whole taint.
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
+      operator: Exists
     - key: node.cluster.x-k8s.io/uninitialized
       effect: NoSchedule
+      operator: Exists
     - key: node.cloudprovider.kubernetes.io/uninitialized
       effect: NoSchedule
+      operator: Exists
 
   # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
   # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
