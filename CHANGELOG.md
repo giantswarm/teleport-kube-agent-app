@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Values: Tolerate `node.cloudprovider.kubernetes.io/uninitialized`.
 - Values: Ignore taints regardless of value.
+- Values: Pass HTTP proxy settings to sub-chart.
 
 ## [0.11.0] - 2026-05-18
 
