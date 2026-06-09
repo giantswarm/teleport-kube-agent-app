@@ -667,9 +667,6 @@
                             },
                             "key": {
                                 "type": "string"
-                            },
-                            "operator": {
-                                "type": "string"
                             }
                         },
                         "type": "object"
