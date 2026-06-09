@@ -1,30 +1,33 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
     "properties": {
         "global": {
+            "type": "object",
             "properties": {
                 "image": {
+                    "type": "object",
                     "properties": {
                         "registry": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "podSecurityStandards": {
+                    "type": "object",
                     "properties": {
                         "enforced": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 }
-            },
-            "type": "object"
+            }
         },
         "teleport-kube-agent": {
+            "type": "object",
             "properties": {
                 "adminClusterRoleBinding": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -32,20 +35,26 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "affinity": {
+                    "type": "object",
                     "properties": {
                         "nodeAffinity": {
+                            "type": "object",
                             "properties": {
                                 "preferredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "array",
                                     "items": {
+                                        "type": "object",
                                         "properties": {
                                             "preference": {
+                                                "type": "object",
                                                 "properties": {
                                                     "matchExpressions": {
+                                                        "type": "array",
                                                         "items": {
+                                                            "type": "object",
                                                             "properties": {
                                                                 "key": {
                                                                     "type": "string"
@@ -53,66 +62,60 @@
                                                                 "operator": {
                                                                     "type": "string"
                                                                 }
-                                                            },
-                                                            "type": "object"
-                                                        },
-                                                        "type": "array"
+                                                            }
+                                                        }
                                                     }
-                                                },
-                                                "type": "object"
+                                                }
                                             },
                                             "weight": {
                                                 "type": "integer"
                                             }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "type": "array"
+                                        }
+                                    }
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "podAntiAffinity": {
+                            "type": "object",
                             "properties": {
                                 "preferredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "array",
                                     "items": {
+                                        "type": "object",
                                         "properties": {
                                             "podAffinityTerm": {
+                                                "type": "object",
                                                 "properties": {
                                                     "labelSelector": {
+                                                        "type": "object",
                                                         "properties": {
                                                             "matchLabels": {
+                                                                "type": "object",
                                                                 "properties": {
                                                                     "app": {
                                                                         "type": "string"
                                                                     }
-                                                                },
-                                                                "type": "object"
+                                                                }
                                                             }
-                                                        },
-                                                        "type": "object"
+                                                        }
                                                     },
                                                     "topologyKey": {
                                                         "type": "string"
                                                     }
-                                                },
-                                                "type": "object"
+                                                }
                                             },
                                             "weight": {
                                                 "type": "integer"
                                             }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "type": "array"
+                                        }
+                                    }
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "annotations": {
+                    "type": "object",
                     "properties": {
                         "config": {
                             "type": "object"
@@ -132,8 +135,7 @@
                         "serviceAccount": {
                             "type": "object"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "appResources": {
                     "type": "array"
@@ -154,32 +156,23 @@
                     "type": "array"
                 },
                 "cluster": {
+                    "type": "object",
                     "properties": {
                         "proxy": {
+                            "type": "object",
                             "properties": {
                                 "http": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
+                                    "type": "null"
                                 },
                                 "https": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
+                                    "type": "null"
                                 },
                                 "noProxy": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ]
+                                    "type": "null"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "clusterDomain": {
                     "type": "string"
@@ -221,6 +214,7 @@
                     "type": "array"
                 },
                 "extraLabels": {
+                    "type": "object",
                     "properties": {
                         "clusterRole": {
                             "type": "object"
@@ -261,8 +255,7 @@
                         "serviceAccount": {
                             "type": "object"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "extraVolumeMounts": {
                     "type": "array"
@@ -271,8 +264,10 @@
                     "type": "array"
                 },
                 "highAvailability": {
+                    "type": "object",
                     "properties": {
                         "podDisruptionBudget": {
+                            "type": "object",
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
@@ -280,8 +275,7 @@
                                 "minAvailable": {
                                     "type": "integer"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "replicaCount": {
                             "type": "integer"
@@ -289,13 +283,13 @@
                         "requireAntiAffinity": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "hostAliases": {
                     "type": "array"
                 },
                 "image": {
+                    "type": "object",
                     "properties": {
                         "registry": {
                             "type": "string"
@@ -303,8 +297,7 @@
                         "repository": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "imagePullPolicy": {
                     "type": "string"
@@ -316,20 +309,21 @@
                     "type": "array"
                 },
                 "initSecurityContext": {
+                    "type": "object",
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
+                            "type": "object",
                             "properties": {
                                 "drop": {
+                                    "type": "array",
                                     "items": {
                                         "type": "string"
-                                    },
-                                    "type": "array"
+                                    }
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "readOnlyRootFilesystem": {
                             "type": "boolean"
@@ -341,15 +335,14 @@
                             "type": "integer"
                         },
                         "seccompProfile": {
+                            "type": "object",
                             "properties": {
                                 "type": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "insecureSkipProxyTLSVerify": {
                     "type": "boolean"
@@ -364,6 +357,7 @@
                     "type": "string"
                 },
                 "jamfCredentialsSecret": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -371,10 +365,10 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "joinParams": {
+                    "type": "object",
                     "properties": {
                         "method": {
                             "type": "string"
@@ -382,10 +376,10 @@
                         "tokenName": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "joinTokenSecret": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -393,50 +387,50 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "kubeClusterName": {
                     "type": "string"
                 },
                 "kubernetesDiscovery": {
+                    "type": "array",
                     "items": {
+                        "type": "object",
                         "properties": {
                             "labels": {
+                                "type": "object",
                                 "properties": {
                                     "*": {
                                         "type": "string"
                                     }
-                                },
-                                "type": "object"
+                                }
                             },
                             "namespaces": {
+                                "type": "array",
                                 "items": {
                                     "type": "string"
-                                },
-                                "type": "array"
+                                }
                             },
                             "types": {
+                                "type": "array",
                                 "items": {
                                     "type": "string"
-                                },
-                                "type": "array"
+                                }
                             }
-                        },
-                        "type": "object"
-                    },
-                    "type": "array"
+                        }
+                    }
                 },
                 "labels": {
                     "type": "object"
                 },
                 "log": {
+                    "type": "object",
                     "properties": {
                         "extraFields": {
+                            "type": "array",
                             "items": {
                                 "type": "string"
-                            },
-                            "type": "array"
+                            }
                         },
                         "format": {
                             "type": "string"
@@ -447,21 +441,21 @@
                         "output": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "nodeSelector": {
                     "type": "object"
                 },
                 "podMonitor": {
+                    "type": "object",
                     "properties": {
                         "additionalLabels": {
+                            "type": "object",
                             "properties": {
                                 "application.giantswarm.io/team": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "enabled": {
                             "type": "boolean"
@@ -469,32 +463,31 @@
                         "interval": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "podSecurityContext": {
+                    "type": "object",
                     "properties": {
                         "fsGroup": {
                             "type": "integer"
                         },
                         "seccompProfile": {
+                            "type": "object",
                             "properties": {
                                 "type": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "podSecurityPolicy": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "priorityClassName": {
                     "type": "string"
@@ -503,42 +496,35 @@
                     "type": "integer"
                 },
                 "proxy": {
+                    "type": "object",
                     "properties": {
                         "http": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": "null"
                         },
                         "https": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": "null"
                         },
                         "noProxy": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": "null"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "proxyAddr": {
                     "type": "string"
                 },
                 "rbac": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "resources": {
+                    "type": "object",
                     "properties": {
                         "limits": {
+                            "type": "object",
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -549,10 +535,10 @@
                                 "memory": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "requests": {
+                            "type": "object",
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -563,11 +549,9 @@
                                 "memory": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "roleBindingName": {
                     "type": "string"
@@ -582,20 +566,21 @@
                     "type": "string"
                 },
                 "securityContext": {
+                    "type": "object",
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
+                            "type": "object",
                             "properties": {
                                 "drop": {
+                                    "type": "array",
                                     "items": {
                                         "type": "string"
-                                    },
-                                    "type": "array"
+                                    }
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "readOnlyRootFilesystem": {
                             "type": "boolean"
@@ -607,17 +592,17 @@
                             "type": "integer"
                         },
                         "seccompProfile": {
+                            "type": "object",
                             "properties": {
                                 "type": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "serviceAccount": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -625,13 +610,13 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "serviceAccountName": {
                     "type": "string"
                 },
                 "storage": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -642,8 +627,7 @@
                         "storageClassName": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "teleportConfig": {
                     "type": "object"
@@ -652,15 +636,17 @@
                     "type": "string"
                 },
                 "tls": {
+                    "type": "object",
                     "properties": {
                         "existingCASecretName": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "tolerations": {
+                    "type": "array",
                     "items": {
+                        "type": "object",
                         "properties": {
                             "effect": {
                                 "type": "string"
@@ -671,12 +657,11 @@
                             "operator": {
                                 "type": "string"
                             }
-                        },
-                        "type": "object"
-                    },
-                    "type": "array"
+                        }
+                    }
                 },
                 "updater": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -700,22 +685,19 @@
                             "type": "string"
                         },
                         "serviceAccount": {
+                            "type": "object",
                             "properties": {
                                 "name": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "versionServer": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 }
-            },
-            "type": "object"
+            }
         }
-    },
-    "type": "object"
+    }
 }
