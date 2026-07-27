@@ -1,0 +1,14 @@
+{{- $proxy := deepCopy .Values.cluster.proxy | mustMerge .Values.proxy -}}
+{{- if and $proxy.http $proxy.https $proxy.noProxy -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-proxy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+data:
+  http_proxy: {{ $proxy.http | quote }}
+  https_proxy: {{ $proxy.https | quote }}
+  no_proxy: {{ $proxy.noProxy | quote }}
+{{- end }}

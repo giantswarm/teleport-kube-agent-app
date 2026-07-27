@@ -157,6 +157,11 @@ spec:
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
+        # GS: proxy env vars injected via ConfigMap from the parent chart
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-proxy
+            optional: true
         env:
         {{- $gomemlimit := include "teleport-kube-agent.gomemlimit" . }}
         {{- if $gomemlimit }}

@@ -8,6 +8,26 @@ global:
   image:
     registry: ""
 
+# HTTP proxy settings.
+proxy:
+  # HTTP proxy URL.
+  http: ""
+  # HTTPS proxy URL.
+  https: ""
+  # Comma separated list of domains excluded from using the HTTP proxy.
+  noProxy: ""
+
+# Cluster-provided settings.
+cluster:
+  # HTTP proxy settings.
+  proxy:
+    # HTTP proxy URL.
+    http: ""
+    # HTTPS proxy URL.
+    https: ""
+    # Comma separated list of domains excluded from using the HTTP proxy.
+    noProxy: ""
+
 teleport-kube-agent:
   # roles(string) -- is a comma-separated list of services which will be enabled
   # when running the `teleport-kube-agent` chart.
@@ -1343,27 +1363,20 @@ teleport-kube-agent:
   # for more details.
   priorityClassName: ""
 
+  # Taints might come with a value and we do not want to define them here and rather make use of the `Exists` operator.
+  # The default value of the operator of a toleration would be `Equal`, so we would have to define the values.
+  # Since they can be subject to change and we do not care about them, we just ignore the whole taint.
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
+      operator: Exists
     - key: node.cluster.x-k8s.io/uninitialized
       effect: NoSchedule
+      operator: Exists
     - key: node.cloudprovider.kubernetes.io/uninitialized
       effect: NoSchedule
+      operator: Exists
 
   # probeTimeoutSeconds(int) -- sets the timeout for the readiness and liveness probes
   # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   probeTimeoutSeconds: 1
-
-  # set the HTTP_PROXY, HTTPS_PROXY and NO_PROXY variable
-  proxy:
-    noProxy:
-    http:
-    https:
-  cluster:
-    # is getting overwritten by the top level proxy if set
-    # These values are generated via cluster-apps-operator
-    proxy:
-      noProxy:
-      http:
-      https:
