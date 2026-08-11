@@ -1,15 +1,12 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "additionalProperties": false,
     "properties": {
         "cluster": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "proxy": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "http": {
                             "type": "string"
@@ -26,11 +23,9 @@
         },
         "global": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "image": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "registry": {
                             "type": "string"
@@ -39,7 +34,6 @@
                 },
                 "podSecurityStandards": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enforced": {
                             "type": "boolean"
@@ -50,7 +44,6 @@
         },
         "proxy": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "http": {
                     "type": "string"
@@ -65,11 +58,9 @@
         },
         "teleport-kube-agent": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "adminClusterRoleBinding": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -81,27 +72,22 @@
                 },
                 "affinity": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "nodeAffinity": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "preferredDuringSchedulingIgnoredDuringExecution": {
                                     "type": "array",
                                     "items": {
                                         "type": "object",
-                                        "additionalProperties": false,
                                         "properties": {
                                             "preference": {
                                                 "type": "object",
-                                                "additionalProperties": false,
                                                 "properties": {
                                                     "matchExpressions": {
                                                         "type": "array",
                                                         "items": {
                                                             "type": "object",
-                                                            "additionalProperties": false,
                                                             "properties": {
                                                                 "key": {
                                                                     "type": "string"
@@ -124,25 +110,20 @@
                         },
                         "podAntiAffinity": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "preferredDuringSchedulingIgnoredDuringExecution": {
                                     "type": "array",
                                     "items": {
                                         "type": "object",
-                                        "additionalProperties": false,
                                         "properties": {
                                             "podAffinityTerm": {
                                                 "type": "object",
-                                                "additionalProperties": false,
                                                 "properties": {
                                                     "labelSelector": {
                                                         "type": "object",
-                                                        "additionalProperties": false,
                                                         "properties": {
                                                             "matchLabels": {
                                                                 "type": "object",
-                                                                "additionalProperties": false,
                                                                 "properties": {
                                                                     "app": {
                                                                         "type": "string"
@@ -168,31 +149,24 @@
                 },
                 "annotations": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "config": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "deployment": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "pod": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "secret": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "service": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "serviceAccount": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         }
                     }
                 },
@@ -230,8 +204,7 @@
                     "type": "array"
                 },
                 "dnsConfig": {
-                    "type": "object",
-                    "additionalProperties": false
+                    "type": "object"
                 },
                 "dnsPolicy": {
                     "type": "string"
@@ -256,59 +229,45 @@
                 },
                 "extraLabels": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "clusterRole": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "clusterRoleBinding": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "config": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "deployment": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "job": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "pod": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "podDisruptionBudget": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "podSecurityPolicy": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "role": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "roleBinding": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "secret": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "service": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "serviceAccount": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         }
                     }
                 },
@@ -320,11 +279,9 @@
                 },
                 "highAvailability": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "podDisruptionBudget": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
@@ -347,7 +304,6 @@
                 },
                 "image": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "registry": {
                             "type": "string"
@@ -368,14 +324,12 @@
                 },
                 "initSecurityContext": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "drop": {
                                     "type": "array",
@@ -396,7 +350,6 @@
                         },
                         "seccompProfile": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "type": {
                                     "type": "string"
@@ -419,7 +372,6 @@
                 },
                 "jamfCredentialsSecret": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -431,7 +383,6 @@
                 },
                 "joinParams": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "method": {
                             "type": "string"
@@ -443,7 +394,6 @@
                 },
                 "joinTokenSecret": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -460,11 +410,9 @@
                     "type": "array",
                     "items": {
                         "type": "object",
-                        "additionalProperties": false,
                         "properties": {
                             "labels": {
                                 "type": "object",
-                                "additionalProperties": false,
                                 "properties": {
                                     "*": {
                                         "type": "string"
@@ -487,12 +435,10 @@
                     }
                 },
                 "labels": {
-                    "type": "object",
-                    "additionalProperties": false
+                    "type": "object"
                 },
                 "log": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "extraFields": {
                             "type": "array",
@@ -512,16 +458,13 @@
                     }
                 },
                 "nodeSelector": {
-                    "type": "object",
-                    "additionalProperties": false
+                    "type": "object"
                 },
                 "podMonitor": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "additionalLabels": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "application.giantswarm.io/team": {
                                     "type": "string"
@@ -538,14 +481,12 @@
                 },
                 "podSecurityContext": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "fsGroup": {
                             "type": "integer"
                         },
                         "seccompProfile": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "type": {
                                     "type": "string"
@@ -556,7 +497,6 @@
                 },
                 "podSecurityPolicy": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -574,7 +514,6 @@
                 },
                 "rbac": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -583,11 +522,9 @@
                 },
                 "resources": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "limits": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -602,7 +539,6 @@
                         },
                         "requests": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -631,14 +567,12 @@
                 },
                 "securityContext": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "drop": {
                                     "type": "array",
@@ -659,7 +593,6 @@
                         },
                         "seccompProfile": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "type": {
                                     "type": "string"
@@ -670,7 +603,6 @@
                 },
                 "serviceAccount": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "create": {
                             "type": "boolean"
@@ -685,7 +617,6 @@
                 },
                 "storage": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -699,15 +630,13 @@
                     }
                 },
                 "teleportConfig": {
-                    "type": "object",
-                    "additionalProperties": false
+                    "type": "object"
                 },
                 "teleportVersionOverride": {
                     "type": "string"
                 },
                 "tls": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "existingCASecretName": {
                             "type": "string"
@@ -718,7 +647,6 @@
                     "type": "array",
                     "items": {
                         "type": "object",
-                        "additionalProperties": false,
                         "properties": {
                             "effect": {
                                 "type": "string"
@@ -734,7 +662,6 @@
                 },
                 "updater": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -759,7 +686,6 @@
                         },
                         "serviceAccount": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "name": {
                                     "type": "string"
