@@ -8,3 +8,4 @@ replace-chart-version-with-git: true
 replace-app-version-with-git: false
 
 kubelinter-config: .abs/.kube-linter.yaml
+helm-template-extra-values: helm/teleport-kube-agent/ci/ci-values.yaml
