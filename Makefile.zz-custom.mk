@@ -19,3 +19,9 @@ regenerate-patches: ## Regenerate patches from current uncommitted changes to th
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/hook.yaml        > $(PATCH_DIR)/04-hook-alpine-version.patch
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/templates/statefulset.yaml > $(PATCH_DIR)/05-statefulset-image-and-proxy.patch
 	@git diff HEAD -- helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json        > $(PATCH_DIR)/06-subchart-schema-image-object.patch
+
+update-chart: check-env ## Sync chart with upstream repo.
+	@echo "====> $@"
+	vendir sync
+	$(MAKE) update-deps
+	$(MAKE) apply-patches
