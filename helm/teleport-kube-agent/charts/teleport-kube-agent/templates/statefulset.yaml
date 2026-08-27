@@ -153,16 +153,10 @@ spec:
       {{- end }}
       containers:
       - name: "teleport"
-        # GS custom registry support
-        image: '{{ include "registry" . }}/{{ .Values.image.repository }}:{{ include "teleport-kube-agent.version" . }}'
+        image: {{ include "teleport-kube-agent.image" . | quote }}
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ toYaml .Values.imagePullPolicy }}
         {{- end }}
-        # GS: proxy env vars injected via ConfigMap from the parent chart
-        envFrom:
-        - configMapRef:
-            name: {{ .Release.Name }}-proxy
-            optional: true
         env:
         {{- $gomemlimit := include "teleport-kube-agent.gomemlimit" . }}
         {{- if $gomemlimit }}
