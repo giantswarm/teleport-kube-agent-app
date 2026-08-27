@@ -71,6 +71,11 @@
                     "type": "string",
                     "default": ""
                 },
+                "tokenName": {
+                    "$id": "#/properties/joinParams/tokenSecret",
+                    "type": "string",
+                    "default": ""
+                },
                 "method": {
                     "$id": "#/properties/joinParams/method",
                     "type": "string",
@@ -364,15 +369,8 @@
         },
         "image": {
             "$id": "#/properties/image",
-            "type": "object",
-            "properties": {
-                "registry": {
-                    "type": "string"
-                },
-                "repository": {
-                    "type": "string"
-                }
-            }
+            "type": "string",
+            "default": "public.ecr.aws/gravitational/teleport-distroless"
         },
         "enterpriseImage": {
             "$id": "#/properties/enterpriseImage",
