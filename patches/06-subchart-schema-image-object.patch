@@ -1,8 +1,8 @@
 diff --git a/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json b/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
-index 193a5b8..8ad7e94 100644
+index 3ca6313..7e5bea8 100644
 --- a/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
 +++ b/helm/teleport-kube-agent/charts/teleport-kube-agent/values.schema.json
-@@ -364,8 +364,15 @@
+@@ -369,8 +369,15 @@
          },
          "image": {
              "$id": "#/properties/image",
