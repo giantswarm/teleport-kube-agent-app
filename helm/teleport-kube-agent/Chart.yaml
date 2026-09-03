@@ -19,4 +19,4 @@ maintainers:
     email: team-shield@giantswarm.io
 dependencies:
   - name: teleport-kube-agent
-    version: 18.10.7
+    version: 18.11.0
