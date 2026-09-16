@@ -2,8 +2,8 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - helmChart:
-      appVersion: 18.10.7
-      version: 18.10.7
+      appVersion: 18.11.0
+      version: 18.11.0
     path: .
   path: helm/teleport-kube-agent/charts/teleport-kube-agent
 kind: LockConfig
