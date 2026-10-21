@@ -1,70 +1,45 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/teleport-kube-agent-app.svg?style=shield)](https://circleci.com/gh/giantswarm/teleport-kube-agent-app)
 
-[Read me after cloning this template (GS staff only)](https://handbook.giantswarm.io/docs/dev-and-releng/app-developer-processes/adding_app_to_appcatalog/)
+# teleport-kube-agent
 
-# teleport-kube-agent-app chart
-
-Giant Swarm offers a teleport-kube-agent-app App which can be installed in workload clusters.
-Here we define the teleport-kube-agent-app chart with its templates and default configuration.
-
-**What is this app?**
-
-**Why did we add it?**
-
-**Who can use it?**
+This repository packages the upstream [`teleport-kube-agent`](https://github.com/gravitational/teleport/tree/master/examples/chart/teleport-kube-agent) Helm chart as a Giant Swarm app.
+The agent runs in every Giant Swarm cluster and registers the cluster's Kubernetes API with Giant Swarm's Teleport cluster, which is how Giant Swarm staff reach management and workload clusters.
+The wrapper adds Giant Swarm registry, Pod Security Standards and HTTP proxy settings on top of the upstream chart.
 
 ## Installing
 
-There are several ways to install this app onto a workload cluster.
-
-- [Using GitOps to instantiate the App](https://docs.giantswarm.io/advanced/gitops/#installing-managed-apps)
-- [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app).
-- By creating an [App resource](https://docs.giantswarm.io/ui-api/management-api/crd/apps.application.giantswarm.io/) in the management cluster as explained in [Getting started with App Platform](https://docs.giantswarm.io/app-platform/getting-started/).
+The app is installed into `kube-system` of every cluster by the [`cluster` chart](https://github.com/giantswarm/cluster) as a Flux `HelmRelease`.
+The join token, proxy address and cluster name come from [`teleport-operator`](https://github.com/giantswarm/teleport-operator), which writes them into a per-cluster ConfigMap that the HelmRelease reads.
+It is not intended to be installed by customers; to run it elsewhere, deploy it like any other Giant Swarm app with a [Flux HelmRelease](https://docs.giantswarm.io/tutorials/fleet-management/app-platform/deploy-app-helmrelease/) or [`kubectl gs deploy chart`](https://docs.giantswarm.io/reference/kubectl-gs/deploy-chart/).
 
 ## Configuring
 
-### values.yaml
-
-**This is an example of a values file you could upload using our web interface.**
+All upstream values are nested under `teleport-kube-agent`; see the [upstream chart reference](https://goteleport.com/docs/enroll-resources/agents/kubernetes/) for the full list.
+The top-level `proxy` block is only needed for clusters that reach the internet through an HTTP proxy.
 
 ```yaml
 # values.yaml
+teleport-kube-agent:
+  roles: kube
+  proxyAddr: teleport.example.com:443
+  kubeClusterName: abc12
+  joinParams:
+    method: token
+    tokenName: <join token>
 
+proxy:
+  http: http://proxy.example.com:3128
+  https: http://proxy.example.com:3128
+  noProxy: 10.0.0.0/8,.svc,.cluster.local
 ```
 
-### Sample App CR and ConfigMap for the management cluster
+See our [full reference on how to configure apps](https://docs.giantswarm.io/tutorials/fleet-management/app-platform/app-configuration/) for more details.
 
-If you have access to the Kubernetes API on the management cluster, you could create
-the App CR and ConfigMap directly.
+## Development
 
-Here is an example that would install the app to
-workload cluster `abc12`:
-
-```yaml
-# appCR.yaml
-
-```
-
-```yaml
-# user-values-configmap.yaml
-
-```
-
-See our [full reference on how to configure apps](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
-
-## Compatibility
-
-This app has been tested to work with the following workload cluster release versions:
-
-- _add release version_
-
-## Limitations
-
-Some apps have restrictions on how they can be deployed.
-Not following these limitations will most likely result in a broken deployment.
-
-- _add limitation_
+The upstream chart is vendored into `helm/teleport-kube-agent/charts/teleport-kube-agent` with [vendir](https://carvel.dev/vendir/) (see [`vendir.yml`](vendir.yml)), and Giant Swarm changes are kept as patches in [`patches/`](patches/).
+Run `make update-chart` to sync a new upstream version and re-apply the patches, and `make regenerate-patches` after changing the vendored chart.
 
 ## Credit
 
-- {APP HELM REPOSITORY}
+- [gravitational/teleport](https://github.com/gravitational/teleport), whose `teleport-kube-agent` chart this app wraps.
